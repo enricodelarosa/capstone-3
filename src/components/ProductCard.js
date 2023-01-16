@@ -8,7 +8,7 @@ import '../css/ProductCard.css';
 
 export default function ProductCard({product}) {
 
-	const {name, description, price, id} = product;
+	const {name, description, price, _id} = product;
 
     const priceDisplay = price.toFixed(2);
 
@@ -34,7 +34,7 @@ export default function ProductCard({product}) {
                 <Button id={'btn-enroll-' + id} className="bg-primary" onClick={enroll}>Enroll</Button> */}
             </Card.Body>
             <div className="text-center">
-                <Button className="bg-primary my-3 w-fit" as={Link} to={`/courses/${id}`} >
+                <Button className="bg-primary my-3 w-fit" as={Link} to={`/products/${_id}`} >
                     Add to Cart!
                 </Button>
             </div>

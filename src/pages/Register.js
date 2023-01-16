@@ -107,14 +107,15 @@ export default function Register() {
         <Navigate to="/courses" />
 
         :
-        <Col className="mt-4">
-        <Row className="col-12 col-md-4 mx-auto">
-        <h1 className="text-center">Register</h1>
+        <Col className="h-100">
+        <Row className="col-12 col-md-4 h-100 mx-auto d-flex align-items-center justify-content-center">
+        
         <Form className="mx-auto p-0" onSubmit={(e) => registerUser(e)}>
+        <h1 className="text-center mb-4">Register</h1>
             <Form.Group  controlId="userEmail">
  
                 <FloatingLabel
-                controlId="floatingInput"
+                controlId="userEmail"
                 label="Email address"
                 className="mb-3"
                 >
@@ -135,7 +136,7 @@ export default function Register() {
 
             <Form.Group controlId="password1">
                 <FloatingLabel
-                controlId="floatingInput"
+                controlId="password1"
                 label="Password"
                 className="mb-3"
                 >
@@ -153,7 +154,7 @@ export default function Register() {
 
             <Form.Group controlId="password2">
                 <FloatingLabel
-                controlId="floatingInput"
+                controlId="password2"
                 label="Vefify Password"
                 className="mb-3">
                     <Form.Control 
@@ -176,6 +177,7 @@ export default function Register() {
                 </Button>
             </div>
         </Form>
+
         </Row>
         </Col>
     )

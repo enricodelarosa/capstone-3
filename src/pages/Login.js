@@ -109,14 +109,15 @@ export default function Login() {
         <Navigate to="/products" />
 
         :
-        <Col className="mt-4">
-        <Row className="col-12 col-md-4 mx-auto">
-        <h1 className="text-center">Login</h1>
+        <Col className="h-100">
+        <Row className="col-12 col-md-4 h-100 mx-auto d-flex align-items-center justify-content-center">
+        
         <Form onSubmit={(e) => authenticate(e)}>
+        <h1 className="text-center mb-4">Login</h1>
             <Form.Group  controlId="userEmail">
 
                 <FloatingLabel
-                controlId="floatingInput"
+                controlId="userEmail"
                 label="Email address"
                 className="mb-3"
                 >
@@ -135,7 +136,7 @@ export default function Login() {
 
             <Form.Group controlId="password1">
             <FloatingLabel
-                controlId="floatingInput"
+                controlId="password1"
                 label="Password"
                 className="mb-3"
                 >

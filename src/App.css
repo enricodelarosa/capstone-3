@@ -4,6 +4,24 @@
     box-sizing: border-box;
   }
   
-  .cardHighlight {
+.cardHighlight {
     min-height: 100%;
-  }
+}
+
+html, body {
+    height: 100%
+}
+
+#root {
+  height: 100%;
+}
+
+.content-container {
+    height: 100%;
+}
+
+.navbar {
+    position: fixed !important;
+    top: 0;
+    width: 100%;
+}
