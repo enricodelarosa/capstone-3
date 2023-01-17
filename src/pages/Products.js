@@ -4,7 +4,9 @@ import {useState, useEffect} from 'react';
 
 import {Row, Col} from 'react-bootstrap';
 
-export default function Courses() {
+import Content from '../layout/Content';
+
+export default function Products() {
 
     const [products, setProducts] = useState([]);
 
@@ -16,7 +18,7 @@ export default function Courses() {
             console.log(data);
             
             setProducts(data.map(product => {
-                return <ProductCard key={product.id} product={product}/>
+                return <ProductCard key={product._id} product={product}/>
             }))
         })
     }, [])
@@ -24,8 +26,10 @@ export default function Courses() {
 	// Props Drilling - allows us to pass information from one component to another using "props"
 	// Curly braces {} are used for props to signify that we are providing/passing information
 	return(
-		<Row>
-		{products}
-		</Row>
+        <Content>
+        <Row className="mt-4 mx-1">
+            {products}
+        </Row>
+        </Content>
 	)
 }

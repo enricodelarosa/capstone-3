@@ -10,7 +10,6 @@ export default function ProductCard({product}) {
 
 	const {name, description, price, _id} = product;
 
-    const priceDisplay = price.toFixed(2);
 
 	return (
         <Card className="product-card my-2 mx-auto">
@@ -24,7 +23,10 @@ export default function ProductCard({product}) {
 
                 <div>
                 <Card.Subtitle className="d-inline">Price:</Card.Subtitle>
-                <Card.Text className="d-inline"> Php {priceDisplay}</Card.Text>
+                <Card.Text className="d-inline"> &#8369; {Intl.NumberFormat('en-US', {
+                                            minimumFractionDigits: 2,
+                                            maximumFractionDigits: 2,
+                                            }).format(price)}</Card.Text>
                 </div>
 
 
@@ -35,7 +37,7 @@ export default function ProductCard({product}) {
             </Card.Body>
             <div className="text-center">
                 <Button className="bg-primary my-3 w-fit" as={Link} to={`/products/${_id}`} >
-                    Add to Cart!
+                    Details
                 </Button>
             </div>
         </Card>

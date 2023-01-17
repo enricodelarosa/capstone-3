@@ -2,14 +2,16 @@
 import {useState, useEffect, useContext} from 'react';
 import { Form, Button, FloatingLabel, Col, Row } from 'react-bootstrap';
 
-import {Navigate} from 'react-router-dom';
+import Auth from '../layout/Auth';
+
+import {Navigate, Link} from 'react-router-dom';
 
 import UserContext from '../UserContext';
 
 import Swal from 'sweetalert2';
 
 export default function Login() {
-    const {user, setUser} = useContext(UserContext);
+    const {user, setUser, setCart, setCartValue} = useContext(UserContext);
 
     const [email, setEmail] = useState("");
     const [pswd, setPswd] = useState("");
@@ -42,7 +44,7 @@ export default function Login() {
                 Swal.fire({
                     title: "Login Successful",
                     icon: "success",
-                    text: "Welcome to Zuitt!"
+                    text: "Welcome to Ricomart!"
                 })                    
                 
 
@@ -85,6 +87,9 @@ export default function Login() {
                 id: data._id,
                 isAdmin: data.isAdmin
             })
+
+            setCart(data.cart);
+            setCartValue(data.cartValue);
         })
     }
 
@@ -105,13 +110,11 @@ export default function Login() {
     return (
         (user.id !== null) 
         ?
-        
+
         <Navigate to="/products" />
 
         :
-        <Col className="h-100">
-        <Row className="col-12 col-md-4 h-100 mx-auto d-flex align-items-center justify-content-center">
-        
+        <Auth>
         <Form onSubmit={(e) => authenticate(e)}>
         <h1 className="text-center mb-4">Login</h1>
             <Form.Group  controlId="userEmail">
@@ -153,6 +156,8 @@ export default function Login() {
                 </FloatingLabel>
             </Form.Group>
 
+            <Link to={'/register'}>Not yet registered?</Link>
+
             <div className="mt-3 text-center">
                 <Button variant="success" type="submit" id="submitBtn" 
                 disabled={!isActive}
@@ -161,8 +166,7 @@ export default function Login() {
                 </Button>
             </div>
         </Form>
-        </Row>
-        </Col>
+        </Auth>
 
     )
 }

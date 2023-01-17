@@ -1,11 +1,13 @@
 import {useState, useEffect, useContext} from 'react';
 import { Form, Button, FloatingLabel, Col, Row } from 'react-bootstrap';
 
-import {Navigate, useNavigate} from 'react-router-dom';
+import {Navigate, useNavigate, Link} from 'react-router-dom';
 
 import UserContext from '../UserContext';
 
 import Swal from 'sweetalert2';
+
+import Auth from '../layout/Auth';
 
 
 export default function Register() {
@@ -104,12 +106,11 @@ export default function Register() {
     return (
         (user.id !== null) 
         ?
-        <Navigate to="/courses" />
+        
+        <Navigate to="/products" />
 
         :
-        <Col className="h-100">
-        <Row className="col-12 col-md-4 h-100 mx-auto d-flex align-items-center justify-content-center">
-        
+        <Auth>
         <Form className="mx-auto p-0" onSubmit={(e) => registerUser(e)}>
         <h1 className="text-center mb-4">Register</h1>
             <Form.Group  controlId="userEmail">
@@ -168,6 +169,8 @@ export default function Register() {
                     />
                 </FloatingLabel>
             </Form.Group>
+
+            <Link to={'/login'}>Already registered?</Link>
             
             <div className="mt-4 text-center">
                 <Button variant={isActive ? 'primary' : 'danger'} type="submit" id="submitBtn" 
@@ -177,9 +180,7 @@ export default function Register() {
                 </Button>
             </div>
         </Form>
-
-        </Row>
-        </Col>
+        </Auth>
     )
 
 }

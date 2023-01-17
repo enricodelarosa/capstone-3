@@ -17,11 +17,14 @@ html, body {
 }
 
 .content-container {
-    height: 100%;
+    position: relative;
+    top: 48px;
+    z-index: 0;
 }
 
 .navbar {
     position: fixed !important;
     top: 0;
     width: 100%;
+    z-index: 1;
 }
