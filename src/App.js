@@ -14,6 +14,7 @@ import Orders from './pages/Orders/Orders';
 import Admin from './pages/Admin/Admin';
 import AddProduct from './pages/Admin/AddProduct';
 import AdminOrders from './pages/Admin/AdminOrders'
+import Users from './pages/Admin/Users';
 
 import Cart from './components/Cart';
 import Offcanvas from 'react-bootstrap/Offcanvas';
@@ -82,7 +83,8 @@ function App() {
         localStorage.clear();
         setUser({
             id: null,
-            isAdmin: null
+            isAdmin: null,
+            isSuperAdmin: null
         });
 
         setCart([]);
@@ -103,6 +105,7 @@ function App() {
                 setUser({
                     id: data._id,
                     isAdmin: data.isAdmin,
+                    isSuperAdmin: data.isSuperAdmin
                 })
 
                 setCart(data.cart);
@@ -223,6 +226,15 @@ function App() {
                 
                 ''
 
+            }
+
+
+            {(user.isSuperAdmin === true) 
+                ?
+                <Route path="/admin/users" element={<Users/>}/>
+
+                :
+                ''
             }
 
             {(user.isAdmin === false)

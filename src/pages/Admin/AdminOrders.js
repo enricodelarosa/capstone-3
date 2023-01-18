@@ -47,7 +47,9 @@ export default function AdminOrders()
 
         const orderCount =  orders.length;
 
-        return totalOfUniqueProductsPerBasket / orderCount;
+        const answer = totalOfUniqueProductsPerBasket / orderCount;
+
+        return answer.toFixed(2);
 
 
     }
@@ -60,7 +62,7 @@ export default function AdminOrders()
 
      return (
         <>
-        <h1 className="text-center mt-4">Users'Orders</h1>
+        <h1 className="text-center mt-4">Users' Orders</h1>
 
         {users == null
         ?
@@ -73,7 +75,7 @@ export default function AdminOrders()
             {
                 users.map(user => {
                     return (
-                        <Row className="border border-dark rounded py-2 my-4 justify-content-center">
+                        <Row className="border border-dark rounded py-2 my-4 justify-content-center" key={user.userId}>
                             <h3 className="text-center">User: {user.email}</h3>
                             <div style={{width: 'fit-content'}} className="my-2 d-flex">
                                 <div>
@@ -98,7 +100,8 @@ export default function AdminOrders()
                                     {
                                         user.orders.map(order => {
                                             return (
-                                                <AdminOrder order={order}/>
+                                                <AdminOrder 
+                                                order={order} key={order.orderId}/>
                                             )
                                         })
                                     }

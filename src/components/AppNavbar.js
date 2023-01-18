@@ -41,7 +41,7 @@ export default function AppNavbar() {
         {(user.isAdmin === false) 
             ?
             <>
-          <Navbar.Brand onClick={handleShowCart}>Cart</Navbar.Brand>
+          <Navbar.Brand onClick={handleShowCart}style={{cursor: 'pointer'}}>Cart</Navbar.Brand>
 
             <Navbar.Brand as={Link} to={'/orders'}>Orders</Navbar.Brand>
           </>
@@ -51,7 +51,18 @@ export default function AppNavbar() {
 
         {(user.isAdmin === true)
         ?
+            <>
             <Navbar.Brand as={Link} to={'/admin/orders'}>User Orders</Navbar.Brand>
+
+            </>
+        :
+        ''
+
+        }
+
+        {(user.isSuperAdmin === true) 
+        ?
+        <Navbar.Brand as={Link} to={'/admin/users'}>Users</Navbar.Brand>
         :
         ''
 

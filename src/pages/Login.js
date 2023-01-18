@@ -85,7 +85,8 @@ export default function Login() {
 
             setUser({
                 id: data._id,
-                isAdmin: data.isAdmin
+                isAdmin: data.isAdmin,
+                isSuperAdmin: data.isSuperAdmin
             })
 
             setCart(data.cart);

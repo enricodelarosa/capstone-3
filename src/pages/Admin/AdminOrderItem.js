@@ -11,7 +11,7 @@ export default function AdminOrderItem({orderItems, showOrderItems}) {
             orderItems.map(orderItem => {
 
                 return (
-                    <div className="my-2">
+                <div className="my-2">
                     <div className="border rounded my-1 px-2 py-1">
                         <p>{orderItem.name}</p>
         
