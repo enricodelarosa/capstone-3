@@ -43,10 +43,10 @@ export default function AppNavbar() {
             <>
           <Navbar.Brand onClick={handleShowCart}>Cart</Navbar.Brand>
 
-        <Navbar.Brand as={Link} to={'/orders'}>Orders</Navbar.Brand>
+            <Navbar.Brand as={Link} to={'/orders'}>Orders</Navbar.Brand>
           </>
             :
-            ''
+            <Navbar.Brand as={Link} to={'/admin/orders'}>User Orders</Navbar.Brand>
         }
             {(user.id !== null) 
                 ? 

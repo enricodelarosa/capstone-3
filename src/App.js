@@ -7,10 +7,13 @@ import Register from './pages/Register';
 import Logout from './pages/Logout';
 import Products from './pages/Products';
 import ProductView from './pages/ProductView';
-import Admin from './pages/Admin/Admin';
-import AddProduct from './pages/Admin/AddProduct';
+
 import Error404 from './pages/Error404';
 import Orders from './pages/Orders/Orders';
+
+import Admin from './pages/Admin/Admin';
+import AddProduct from './pages/Admin/AddProduct';
+import AdminOrders from './pages/Admin/AdminOrders'
 
 import Cart from './components/Cart';
 import Offcanvas from 'react-bootstrap/Offcanvas';
@@ -213,6 +216,8 @@ function App() {
                 <Route path="/admin/products/new" element={<AddProduct header={'Create Product'}/>}/>
 
                 <Route path="/admin/products/:productId" element={<AddProduct header={'Edit Product'}/>}/>
+
+                <Route path="/admin/orders" element={<AdminOrders/>}/>
                 </>
                 :
                 

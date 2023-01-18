@@ -1,0 +1,24 @@
+.spinner {
+    width: 5rem;
+    height: 5rem;
+    color: #ffffff; 
+    fill: lightblue;
+    margin: 0 auto;
+    
+}
+
+@-moz-keyframes spinner {
+    to { -moz-transform: rotate(360deg); }
+}
+@-webkit-keyframes spin {
+    to { -webkit-transform: rotate(360deg); }
+}
+@keyframes spin {
+    to {transform:rotate(360deg);}
+}
+
+.spinner {
+    animation: spin 1000ms linear infinite;
+}
+  
+/* spinner w-20 h-20 text-white animate-spin fill-blue-600 mx-auto" */

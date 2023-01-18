@@ -67,7 +67,7 @@ export default function Admin() {
             </Col>
 
             <Col className="text-center col-4 col-md-2">
-                <Button variant="success">
+                <Button as={Link} to={'/admin/orders'} variant="success">
                     Show User Orders
                 </Button>
         
