@@ -2,7 +2,7 @@ import ProductCard from '../components/ProductCard';
 import {useState, useEffect} from 'react';
 // import coursesData from '../data/coursesData';
 
-import {Row, Col} from 'react-bootstrap';
+import {Row, Col, Container} from 'react-bootstrap';
 
 import Content from '../layout/Content';
 
@@ -18,7 +18,12 @@ export default function Products() {
             console.log(data);
             
             setProducts(data.map(product => {
-                return <ProductCard key={product._id} product={product}/>
+
+                return (
+                    <Col className="col-12 col-md-3 m-2">
+                        <ProductCard key={product._id} product={product}/>
+                    </Col>
+                )
             }))
         })
     }, [])
@@ -27,9 +32,11 @@ export default function Products() {
 	// Curly braces {} are used for props to signify that we are providing/passing information
 	return(
         <Content>
-        <Row className="mt-4 mx-1">
+        <Container>
+        <Row className="mt-4 mx-1 justify-content-center align-middle">
             {products}
         </Row>
+        </Container>
         </Content>
 	)
 }

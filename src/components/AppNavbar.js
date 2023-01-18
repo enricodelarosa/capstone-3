@@ -40,7 +40,11 @@ export default function AppNavbar() {
 
         {(user.isAdmin === false) 
             ?
+            <>
           <Navbar.Brand onClick={handleShowCart}>Cart</Navbar.Brand>
+
+        <Navbar.Brand as={Link} to={'/orders'}>Orders</Navbar.Brand>
+          </>
             :
             ''
         }

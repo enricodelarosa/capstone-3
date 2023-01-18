@@ -1,5 +1,5 @@
 import {useState, useEffect} from 'react';
-import { BrowserRouter as Router, Route, Routes, Navigate} from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, Navigate, useNavigate} from 'react-router-dom';
 
 import AppNavbar from './components/AppNavbar';
 import Login from './pages/Login';
@@ -10,6 +10,7 @@ import ProductView from './pages/ProductView';
 import Admin from './pages/Admin/Admin';
 import AddProduct from './pages/Admin/AddProduct';
 import Error404 from './pages/Error404';
+import Orders from './pages/Orders/Orders';
 
 import Cart from './components/Cart';
 import Offcanvas from 'react-bootstrap/Offcanvas';
@@ -20,12 +21,18 @@ import {Container, Button} from 'react-bootstrap';
 
 import Content from './layout/Auth';
 
+import Swal from 'sweetalert2';
+
 import useWindowDimensions from './utils/WindowDimensions';
 
 import './App.css';
 
 function App() {
+    const navigate = useNavigate();
+
     const [showCart, setShowCart] = useState(false);
+
+    const [orderDum, setOrderDum] = useState(0);
 
     const handleCloseCart = () => setShowCart(false);
     const handleShowCart = () => setShowCart(true); 
@@ -119,9 +126,53 @@ function App() {
             }).format(amount)
     }
 
+    function handleCheckout() {
+        fetch(`/users/cart/checkout`, {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('token')}`,
+            }
+        })
+        .then(res => res.json())
+        .then(data => {
+            console.log(data);
+
+            if (data.success === true) {
+                Swal.fire({
+                    title: `Order #${data.orderId} Placed`,
+                    icon: "success",
+                    text: "Order has been placed."
+                })
+                
+                refreshCart();
+
+                navigate('/orders');
+                setOrderDum(orderDum +1);
+
+                
+
+
+            } else {
+                Swal.fire({
+                    title: data.errorHeading,
+                    icon: "error",
+                    text: data.errorMessage
+                })        
+
+            }
+
+        })
+
+    }
+
+
+
+
+
   return (
-    <UserProvider value={{user, setUser, unsetUser, cart, setCart, setCartValue, refreshCart, handleShowCart, setShowCart}}>
-    <Router>
+    <UserProvider value={{user, setUser, unsetUser, cart, setCart, setCartValue, refreshCart, handleShowCart, setShowCart, orderDum}}>
+    
 
     { (user.isAdmin === false) ?
     <Offcanvas show={showCart} onHide={handleCloseCart}>
@@ -129,7 +180,7 @@ function App() {
           <Offcanvas.Title>Cart</Offcanvas.Title>
           <Offcanvas.Title>&#8369; {toDisplayAmt(cartValue)}</Offcanvas.Title>
           <div>
-            <Button>Checkout</Button>
+            <Button onClick={handleCheckout}>Checkout</Button>
           </div>
         </Offcanvas.Header>
         <Offcanvas.Body>
@@ -148,6 +199,7 @@ function App() {
       <Container className="content-container" style={{height: height - 48 + 'px'}}>
             <Routes>
             <Route path="/" element={<Navigate to="/products"/>} />
+            <Route path="/app" element={<Navigate to="/products"/>} />
             <Route path="/products" element={<Products />} />
 
             <Route path="/products/:productId" element={<ProductView />} />
@@ -168,6 +220,17 @@ function App() {
 
             }
 
+            {(user.isAdmin === false)
+                ?
+                <>
+                <Route path="/orders" element={<Orders />}/>
+                </>
+                :
+                
+                ''
+
+            }
+
 
             <Route path="/register" element={<Register />}/>
             <Route path = "/login" element={<Login />}/>
@@ -177,7 +240,7 @@ function App() {
             
             </Routes>
       </Container>
-    </Router>
+    {/* </Router> */}
     </UserProvider>
   );
 }

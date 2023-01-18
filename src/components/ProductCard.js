@@ -12,8 +12,8 @@ export default function ProductCard({product}) {
 
 
 	return (
-        <Card className="product-card my-2 mx-auto">
-            <Card.Body>
+        <Card className="h-100">
+            <Card.Body className="">
                 <Card.Title>{name}</Card.Title>
 
                 <div>
