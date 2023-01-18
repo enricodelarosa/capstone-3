@@ -46,7 +46,15 @@ export default function AppNavbar() {
             <Navbar.Brand as={Link} to={'/orders'}>Orders</Navbar.Brand>
           </>
             :
+            ''
+        }
+
+        {(user.isAdmin === true)
+        ?
             <Navbar.Brand as={Link} to={'/admin/orders'}>User Orders</Navbar.Brand>
+        :
+        ''
+
         }
             {(user.id !== null) 
                 ? 
