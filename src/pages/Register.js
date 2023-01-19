@@ -131,6 +131,7 @@ export default function Register() {
 
 
             } else {
+                setIsLoading(false);
                 Swal.fire({
                     title: "Email Already Registered",
                     icon: "error",

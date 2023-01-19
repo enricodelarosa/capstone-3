@@ -58,7 +58,7 @@ export default function Login() {
 
                 
             } else {
-
+                setIsLoading(false);
                 Swal.fire({
                     title: "Authentication Failed",
                     icon: "error",
