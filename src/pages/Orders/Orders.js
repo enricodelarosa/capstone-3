@@ -68,7 +68,8 @@ export default function Orders() {
                             {
                                 order.orderItems.map(orderItem => {
                                     return (
-                                        <Col className="border border-info px-3 py-2 my-2 rounded col-10 col-md-2 m-2 pointer">
+                                        <Col 
+                                        key={orderItem._id} className="border border-info px-3 py-2 my-2 rounded col-10 col-md-2 m-2 pointer">
                                             <span className="text-center d-block mb-2">Order Item # {orderItem._id}</span>
                                             <h4 >{orderItem.name}</h4>
                                             <h6>Price: &#8369; {amtDisplay(orderItem.unitPrice)}</h6>

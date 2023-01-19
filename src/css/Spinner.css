@@ -7,6 +7,20 @@
     
 }
 
+.inlineDiv {
+    display: inline;
+    margin-left: 2rem;
+}
+
+.smallSpinner {
+    width: 2rem;
+    height: 2rem;
+    color: #ffffff; 
+    fill: lightblue;
+    margin: 0 auto;
+
+}
+
 @-moz-keyframes spinner {
     to { -moz-transform: rotate(360deg); }
 }
@@ -18,6 +32,10 @@
 }
 
 .spinner {
+    animation: spin 1000ms linear infinite;
+}
+
+.smallSpinner {
     animation: spin 1000ms linear infinite;
 }
   
