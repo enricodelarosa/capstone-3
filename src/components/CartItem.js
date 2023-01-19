@@ -20,6 +20,10 @@ export default function CartItem({cartItem}) {
             }).format(amount)
     }
 
+    function loadFuncQFalse() {
+        setIsCTLoading(false)
+    }
+
     function handleRemove(productId) {
         setIsCTLoading(true)
         fetch(`/users/cart/${productId}`, {
@@ -36,13 +40,11 @@ export default function CartItem({cartItem}) {
             console.log('deletign from cart')
 
             if (data.success) {
-                refreshCart();
+                refreshCart(loadFuncQFalse);
             }
 
-
+            
         })
-
-        setIsCTLoading(false);
 
        
 

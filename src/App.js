@@ -57,7 +57,7 @@ function App() {
     const [cart, setCart] = useState(null);
     const [cartValue, setCartValue] = useState(0);
 
-    const refreshCart = () => {
+    const refreshCart = (optionalCallBackFunc) => {
         
         console.log('refreshing cart, getting details');
         fetch(`/users/details`, {
@@ -81,7 +81,14 @@ function App() {
             }
 
             setIsCartLoading(false);
-    
+
+            let isFunction = typeof optionalCallBackFunc === 'function'
+
+            if (isFunction) {
+
+                optionalCallBackFunc();
+            }
+            
         })
 
         
