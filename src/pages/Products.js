@@ -6,9 +6,11 @@ import {Row, Col, Container} from 'react-bootstrap';
 
 import Content from '../layout/Content';
 
+import Spinner from '../utils/Spinner';
+
 export default function Products() {
 
-    const [products, setProducts] = useState([]);
+    const [products, setProducts] = useState(null);
 
 
     useEffect(() => {
@@ -34,7 +36,15 @@ export default function Products() {
         <Content>
         <Container>
         <Row className="mt-4 mx-1 justify-content-center align-middle">
-            {products}
+            {
+                (products == null) ?
+
+                <Spinner />
+                :
+
+                products
+                
+            }
         </Row>
         </Container>
         </Content>

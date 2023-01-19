@@ -5,12 +5,16 @@ import {useParams, useNavigate, Link} from 'react-router-dom';
 
 import Table from 'react-bootstrap/Table';
 
+import Spinner from '../../utils/Spinner';
+
+import Content from '../../layout/Content';
+
 export default function Admin() {
     // Get all products
 
     const navigate = useNavigate();
 
-    const [products, setProducts] = useState([]);
+    const [products, setProducts] = useState(null);
 
     const headers = [{name: 'Name'}, {description: 'Description'}, {price: 'Price'}, {stock: 'Stock'}, {isActive: 'Availability'}, {actions: 'Actions'}]
 
@@ -56,23 +60,31 @@ export default function Admin() {
     }
 
     return (
-        <>
-        <Row className="m-4 justify-content-center">
-            <h1 className="text-center">Admin Dashboard</h1>
-            <Col className="text-center col-4 col-md-2">
-        
-                    <Button as={Link} to={'/admin/products/new'}>
-                        Add New Product
-                    </Button>
-            </Col>
+        <Content>
+            <Row className="m-4 justify-content-center">
+                <h1 className="text-center">Admin Dashboard</h1>
+                    <Col className="text-center col-4 col-md-2">
+                
+                            <Button as={Link} to={'/admin/products/new'}>
+                                Add New Product
+                            </Button>
+                    </Col>
 
-            <Col className="text-center col-4 col-md-2">
+                    <Col className="text-center col-4 col-md-2">
                 <Button as={Link} to={'/admin/orders'} variant="success">
                     Show User Orders
                 </Button>
         
             </Col>
-        </Row>
+            </Row>
+        {(products == null) ?
+            <>
+
+            <Spinner />
+            </>
+            :
+            <>
+            
         
         <Row>
         <Table striped bordered hover responsive>
@@ -86,7 +98,7 @@ export default function Admin() {
             <tbody>
                 {products.map(product => {
                     return (
-                        <tr className={`${product.isActive ? '' : 'bg-danger'} align-middle`}>
+                        <tr className={`${product.isActive ? '' : 'bg-danger'} align-middle`} key={product.id}>
                             <th>{product.name}</th>
                             <td>{product.description}</td>
                             <td className="text-end">&#8369;  { 
@@ -125,7 +137,11 @@ export default function Admin() {
         </Table>
 
         </Row>
-
         </>
+
+        }
+        
+
+        </Content>
     )
 }

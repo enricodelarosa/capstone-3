@@ -6,11 +6,13 @@ import UserContext from '../../UserContext';
 
 import '../../css/Orders.css'
 
+import Spinner from '../../utils/Spinner';
+
 export default function Orders() {
 
     const {setShowCart, orderDum} = useContext(UserContext);
 
-    const [orders, setOrders] = useState([]);
+    const [orders, setOrders] = useState(null);
 
     useEffect(() => {
         fetch(`/users/orders`, {
@@ -46,11 +48,17 @@ export default function Orders() {
         <Container className="mt-4 pb-4">
             <h1 className="text-center">Orders</h1>
             
-            {(orders.length == 0) ?
+            {(orders == null) ?
+                <Spinner />
+
+                :
+
+                (orders.length === 0) ?
                 <p className="text-center">No orders yet. Start by adding items to your <p className="text-info pointer d-inline" onClick={e => {
                     setShowCart(true);
                 }}>cart</p></p>
                 :
+
                 orders.map(order => {
                     return (
                         <Row key={order.orderId} className="border border-dark my-4 rounded justify-content-center">
