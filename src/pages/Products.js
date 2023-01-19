@@ -22,8 +22,8 @@ export default function Products() {
             setProducts(data.map(product => {
 
                 return (
-                    <Col className="col-12 col-md-3 m-2">
-                        <ProductCard key={product._id} product={product}/>
+                    <Col  key ={product._id}className="col-12 col-md-3 m-2">
+                        <ProductCard  product={product}/>
                     </Col>
                 )
             }))

@@ -25,6 +25,8 @@ import {Container, Button} from 'react-bootstrap';
 
 import Content from './layout/Auth';
 
+import Spinner from './utils/Spinner';
+
 import Swal from 'sweetalert2';
 
 import useWindowDimensions from './utils/WindowDimensions';
@@ -33,6 +35,8 @@ import './App.css';
 
 function App() {
     const navigate = useNavigate();
+
+    const [isCartLoading, setIsCartLoading] = useState(false)
 
     const [showCart, setShowCart] = useState(false);
 
@@ -50,10 +54,11 @@ function App() {
         isAdmin: null
     });
 
-    const [cart, setCart] = useState([]);
+    const [cart, setCart] = useState(null);
     const [cartValue, setCartValue] = useState(0);
 
     const refreshCart = () => {
+        
         console.log('refreshing cart, getting details');
         fetch(`/users/details`, {
             headers: {
@@ -71,11 +76,15 @@ function App() {
     
             else { 
 
-                setCart([]);
+                setCart(null);
                 setCartValue(0);
             }
+
+            setIsCartLoading(false);
     
         })
+
+        
 
     }
 
@@ -177,22 +186,30 @@ function App() {
 
 
   return (
-    <UserProvider value={{user, setUser, unsetUser, cart, setCart, setCartValue, refreshCart, handleShowCart, setShowCart, orderDum}}>
+    <UserProvider value={{user, setUser, unsetUser, cart, setCart, setCartValue, refreshCart, handleShowCart, setShowCart, orderDum, setIsCartLoading}}>
     
 
     { (user.isAdmin === false) ?
     <Offcanvas show={showCart} onHide={handleCloseCart}>
         <Offcanvas.Header closeButton>
           <Offcanvas.Title>Cart</Offcanvas.Title>
+
+          
           <Offcanvas.Title>&#8369; {toDisplayAmt(cartValue)}</Offcanvas.Title>
           <div>
             <Button onClick={handleCheckout}>Checkout</Button>
           </div>
         </Offcanvas.Header>
+
+        {
+          (isCartLoading) ?
+          <Spinner/>
+          :
         <Offcanvas.Body>
             <Cart cart={cart}/>
         </Offcanvas.Body>
-
+        
+        }
       </Offcanvas>
 
       :

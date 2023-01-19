@@ -11,11 +11,15 @@ import Swal from 'sweetalert2';
 
 import '../css/ProductView.css';
 
+import Spinner from '../utils/Spinner';
+
 export default function ProductView() {
 
     const navigate = useNavigate();
 
-    const {user, cart, refreshCart, setShowCart} = useContext(UserContext);
+    const [isLoading, setIsLoading] = useState(false);
+
+    const {user, cart, refreshCart, setShowCart, setIsCartLoading} = useContext(UserContext);
 
 
     const {productId} = useParams();
@@ -40,6 +44,11 @@ export default function ProductView() {
         console.log(cart);
 
         console.log(productId);
+
+        if (cart === null) {
+            return;
+        }
+
 
         const foundProduct = cart.find(product => {
             return product.productId === productId
@@ -80,6 +89,8 @@ export default function ProductView() {
     },[quantity, newQuantity])
 
     function updateCart(productId) {
+        setIsCartLoading(true);
+        setIsLoading(true);
         fetch(`/users/cart/${productId}?quantity=${quantity}`, {
             method: "PATCH",
             headers: {
@@ -94,7 +105,7 @@ export default function ProductView() {
         .then(res => res.json())
         .then(data => {
             console.log(data);
-
+            setIsLoading(false);
             if (data.success === true) {
                 Swal.fire({
                     title: "Cart updated",
@@ -107,19 +118,27 @@ export default function ProductView() {
                 //navigate('/courses');
 
             } else {
+                setIsCartLoading(false);
                 Swal.fire({
                     title: "Error occured",
                     icon: "error",
                     text: "Please try again."
-                })        
+                    
+                })      
+                
+                
 
             }
 
         })
 
+        
+
     }
 
     function deleteFromCart(productId) {
+        setIsCartLoading(true);
+        setIsLoading(true);
         fetch(`/users/cart/${productId}`, {
             method: "DELETE",
             headers: {
@@ -130,7 +149,7 @@ export default function ProductView() {
         .then(res => res.json())
         .then(data => {
             console.log(data);
-
+            setIsLoading(false);
             if (data.success === true) {
                 Swal.fire({
                     title: "Removed from Cart",
@@ -142,6 +161,8 @@ export default function ProductView() {
                 setShowCart(true);
 
             } else {
+
+                setIsCartLoading(false);
                 Swal.fire({
                     title: "Error occured",
                     icon: "error",
@@ -152,10 +173,13 @@ export default function ProductView() {
 
         })
 
+        
 
     }
 
     function addToCart(productId) {
+        setIsCartLoading(true);
+        setIsLoading(true);
         fetch(`/users/cart`, {
             method: "POST",
             headers: {
@@ -170,7 +194,7 @@ export default function ProductView() {
         .then(res => res.json())
         .then(data => {
             console.log(data);
-
+            setIsLoading(false);
             if (data.success === true) {
                 Swal.fire({
                     title: "Added to cart",
@@ -183,6 +207,7 @@ export default function ProductView() {
                 //navigate('/courses');
 
             } else {
+                setIsCartLoading(false);
                 Swal.fire({
                     title: data.error,
                     icon: "error",
@@ -245,9 +270,15 @@ export default function ProductView() {
 					        {
 					        	(user.id !== null) ?
                                     (inCart === false) ?
+
+                                        (isLoading) ?
+                                        <Spinner />
+                                        :
 					        		    <Button variant="primary" onClick={() => addToCart(productId)} >Add to Cart</Button>
                                         :
-
+                                        (isLoading) ?
+                                        <Spinner />
+                                        :
                                         <div className="d-flex flex-column">
                                         <div>
                                         <Button className="my-2" disabled={!activateUpdate} variant="primary" onClick={() => updateCart(productId)} >Update Cart</Button>

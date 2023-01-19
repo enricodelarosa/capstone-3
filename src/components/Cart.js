@@ -2,11 +2,11 @@ import {useState, useEffect, useContext} from 'react';
 
 import UserContext from '../UserContext';
 
+import Spinner from '../utils/Spinner';
 
 
-
-export default function Cart({cart, cartValue}) {
-    const {refreshCart} = useContext(UserContext);
+export default function Cart({cart}) {
+    const {refreshCart, setIsCartLoading} = useContext(UserContext);
 
     function toDisplayAmt(amount) {
         return Intl.NumberFormat('en-US', {
@@ -37,6 +37,8 @@ export default function Cart({cart, cartValue}) {
 
         })
 
+       
+
 
 
     }
@@ -44,7 +46,7 @@ export default function Cart({cart, cartValue}) {
 
     function handleChange(quantity,productId) {
 
-
+        
         fetch(`/users/cart/${productId}?quantity=${quantity}`, {
             method: "PATCH",
             headers: {
@@ -64,20 +66,22 @@ export default function Cart({cart, cartValue}) {
 
 
         })
-
+        
     }
 
     return (
         <>
 
-            {
+            {(cart == null) ?
+                <Spinner/>
+            :
                 cart.map(cartItem => {
                     return (
                         <div key={cartItem.productId} className="border border-dark my-2 rounded p-2 position-relative">
 
                             
  
-                            <button type="button" class="btn-close position-absolute top-0 end-0 m-2" aria-label="Close" onClick={e => {
+                            <button type="button" className="btn-close position-absolute top-0 end-0 m-2" aria-label="Close" onClick={e => {
                                 handleRemove(cartItem.productId)
                             }}></button>
 
