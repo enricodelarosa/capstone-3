@@ -9,11 +9,16 @@ import Swal from 'sweetalert2';
 
 import Auth from '../layout/Auth';
 
+import Spinner from '../utils/Spinner';
+
 
 export default function Register() {
 
+    const {user, setUser, setCart, setCartValue} = useContext(UserContext);
+
     const navigate = useNavigate();
 
+    const [isLoading, setIsLoading] = useState(false);
 
     const [email, setEmail] = useState("");
     const [pswd, setPswd] = useState("");
@@ -37,8 +42,64 @@ export default function Register() {
       
       }
 
+    function loginUser() {
+        fetch(`/users/login`,
+        {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                email: email,
+                password: pswd
+            })
+        })
+        .then(res => res.json())
+        .then(data => {
+            console.log(data);
+
+            if (typeof data.access !== "undefined") {
+                localStorage.setItem('token', data.access);
+
+                retrieveUserDetails(data.access);
+
+                setIsLoading(false);                 
+                
+
+                
+            } else {
+
+                
+            }
+        });
+
+    }
+
+        const retrieveUserDetails = (token) => {
+        fetch(`/users/details`, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
+        .then(res => res.json())
+        .then(data => {
+            console.log(data);
+
+            setUser({
+                id: data._id,
+                isAdmin: data.isAdmin,
+                isSuperAdmin: data.isSuperAdmin
+            })
+
+            setCart(data.cart);
+            setCartValue(data.cartValue);
+        })
+    }
+
     function registerUser(e) {
         e.preventDefault();
+
+        setIsLoading(true);
         setEmail("");
         setPswd("");
         setVerifyPswd("");
@@ -58,10 +119,12 @@ export default function Register() {
         .then(data => {
             if (data) {
 
+                setIsLoading(false);
+                loginUser();
                 Swal.fire({
                     title: "Registration Successful",
                     icon: "success",
-                    text: "Welcome to Zuitt! Kindly log-in using your newly registered account"
+                    text: "Welcome to Rico Mart! You've been automatically logged in!"
                 })    
 
                 navigate('/login');
@@ -101,7 +164,6 @@ export default function Register() {
 
     },[email, pswd, verifyPswd])
 
-    const {user} = useContext(UserContext);
 
     return (
         (user.id !== null) 
@@ -110,6 +172,13 @@ export default function Register() {
         <Navigate to="/products" />
 
         :
+
+        (isLoading) ?
+        <Auth>
+            <Spinner />
+        </Auth>
+        :
+
         <Auth>
         <Form className="mx-auto p-0" onSubmit={(e) => registerUser(e)}>
         <h1 className="text-center mb-4">Register</h1>

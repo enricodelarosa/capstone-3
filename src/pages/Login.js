@@ -10,6 +10,8 @@ import UserContext from '../UserContext';
 
 import Swal from 'sweetalert2';
 
+import Spinner from '../utils/Spinner';
+
 export default function Login() {
     const {user, setUser, setCart, setCartValue} = useContext(UserContext);
 
@@ -18,8 +20,13 @@ export default function Login() {
 
     const [isActive, setIsActive] = useState(false);
 
+    const [isLoading, setIsLoading] = useState(false);
+
     function authenticate(e) {
         e.preventDefault();
+
+        setIsLoading(true);
+
 
         fetch(`/users/login`,
         {
@@ -41,6 +48,7 @@ export default function Login() {
 
                 retrieveUserDetails(data.access);
 
+                setIsLoading(false);
                 Swal.fire({
                     title: "Login Successful",
                     icon: "success",
@@ -114,6 +122,13 @@ export default function Login() {
 
         <Navigate to="/products" />
 
+        :
+        
+        (isLoading) ?
+
+        <Auth>
+            <Spinner />
+        </Auth>
         :
         <Auth>
         <Form onSubmit={(e) => authenticate(e)}>
