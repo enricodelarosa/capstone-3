@@ -1,3 +1,4 @@
+import { display } from '@mui/system';
 import {useState, useEffect, useContext} from 'react';
 
 import UserContext from '../UserContext';
@@ -5,15 +6,23 @@ import Spinner from '../utils/Spinner';
 
 export default function CartItem({cartItem}) {
 
-
-    const {refreshCart, setIsCartLoading} = useContext(UserContext);
+    const {refreshCart, setIsCartLoading, setIsCheckoutButtonDisabled} = useContext(UserContext);
 
     const [isQLoading, setIsQLoading] = useState(false);
 
     const [isCTLoading, setIsCTLoading] = useState(false);
 
-    const [newQuantity, setNewQuantity] = useState(cartItem.quantity);
+    const [displayQuantity, setDisplayQuantity] = useState(cartItem.quantity);
+    const [submitQuantity, setSubmitQuantity] = useState(cartItem.quantity);
 
+    const [clickCount, setClickCount] = useState(0);
+
+
+    useEffect(() => {
+
+        document.getElementById(`quantity-${cartItem.productId}`).value = cartItem.quantity;
+
+    }, [cartItem])
 
     function toDisplayAmt(amount) {
         return Intl.NumberFormat('en-US', {
@@ -27,6 +36,7 @@ export default function CartItem({cartItem}) {
     }
 
     function handleRemove(productId) {
+        setIsCheckoutButtonDisabled(true);
         setIsCTLoading(true)
         fetch(`/users/cart/${productId}`, {
             method: "DELETE",
@@ -54,46 +64,58 @@ export default function CartItem({cartItem}) {
 
     }
 
-    let qChangeTimeOut;
+
+
+    function updateCartQuantity(productId, quantity) {
+
+        setIsQLoading(true);
+        setIsCheckoutButtonDisabled(true);
+
+        fetch(`/users/cart/${productId}?quantity=${quantity}`, {
+            method: "PATCH",
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('token')}`,
+            },
+        })
+            .then(res => res.json())
+            .then(data => {
+                console.log(data);
+
+                console.log('updating cart')
+
+                if (data.success) {
+                    refreshCart(() => {
+                        setIsQLoading(false);
+                    });
+                }
 
 
 
-    function handleChange(productId) {
-        
 
-        clearTimeout(qChangeTimeOut);
-
-        
-
-
-        qChangeTimeOut = setTimeout(() => {
-            console.log('updating cart')
-            setIsQLoading(true)
-            fetch(`/users/cart/${productId}?quantity=${newQuantity}`, {
-                method: "PATCH",
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${localStorage.getItem('token')}`,
-                },
             })
-                .then(res => res.json())
-                .then(data => {
-                    console.log(data);
+    }
 
-                    console.log('updating cart')
-
-                    if (data.success) {
-                        refreshCart(() => {
-                            setIsQLoading(false);
-                        });
-                    }
+    function handleChange(productId, newQ) {
 
 
-                })
+    }
 
+
+    let quantityUpdateTimeout;
+
+    function updateQuantity(productId, quantity) {
+        
+        clearTimeout(quantityUpdateTimeout);
+
+        quantityUpdateTimeout = setTimeout(() => {
+            
+            console.log('Mock function running updateing this in cart ' + productId + ` to ${quantity} pcs`);
+            updateCartQuantity(productId,quantity)
+            
         }, 1500)
 
-
+        
 
     }
 
@@ -130,28 +152,39 @@ export default function CartItem({cartItem}) {
                     :   
 
                     <>
-                <input type="button" value={`${newQuantity== 1 ? ' ' : '-'}`} className="button-minus" data-field="quantity"
+                <input type="button" value={`${displayQuantity== 1 ? ' ' : '-'}`} className="button-minus" data-field="quantity"
                     onClick={e => {
-                        if (newQuantity <= 1) {
-                            return;
-                        }
-                        setNewQuantity(Number(newQuantity) - 1);
-                        handleChange(cartItem.productId)
+
+                        const quantityElement = document.getElementById(`quantity-${cartItem.productId}`);
+
+                        quantityElement.value = Number(quantityElement.value) - 1;
+
+                        updateQuantity(cartItem.productId,quantityElement.value);
+
                     }}
+                        // setNewQuantity(Number(newQuantity) - 1);
+
+                        // handleChange(cartItem.productI}
                 />
 
-                <input id="quantity" type="number" min="1" max="" name="quantity" className="quantity-field" value={newQuantity} 
+                <input id={`quantity-${cartItem.productId}`} type="number" min="1" max="" name="quantity" className="quantity-field" 
                 onChange={e => 
                     { 
-                        setNewQuantity(e.target.value);
-                        handleChange(cartItem.productId)
+                        
+                        updateQuantity(cartItem.productId, e.target.value);
+                        // handleChange(cartItem.productId, newQuantity)
+                        
                     }}
                 />
 
                 <input type="button" value="+" className="button-plus" data-field="quantity"
                     onClick={e => {
-                        setNewQuantity(Number(newQuantity) + 1);
-                        handleChange(cartItem.productId)
+                        const quantityElement = document.getElementById(`quantity-${cartItem.productId}`);
+
+                        quantityElement.value = Number(quantityElement.value) + 1;
+
+                        updateQuantity(cartItem.productId,quantityElement.value);
+
                     }} />
                 </>
                 }

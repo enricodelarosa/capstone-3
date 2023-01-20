@@ -49,6 +49,8 @@ function App() {
     const [ ischeckoutLoading, setIsCheckoutLoading] = useState(false);
     const [isCartLoading, setIsCartLoading] = useState(false)
 
+    const [isCheckoutButtonDisabled, setIsCheckoutButtonDisabled] = useState(false);
+
     const [showCart, setShowCart] = useState(false);
 
     const [orderDum, setOrderDum] = useState(0);
@@ -90,6 +92,8 @@ function App() {
             }
 
             setIsCartLoading(false);
+            setIsCheckoutButtonDisabled(false );
+
 
             let isFunction = typeof optionalCallBackFunc === 'function'
 
@@ -206,7 +210,7 @@ function App() {
 
 
   return (
-    <UserProvider value={{user, setUser, unsetUser, cart, setCart, setCartValue, refreshCart, handleShowCart, setShowCart, orderDum, setIsCartLoading}}>
+    <UserProvider value={{user, setUser, unsetUser, cart, setCart, setCartValue, refreshCart, handleShowCart, setShowCart, orderDum, setIsCartLoading, setIsCheckoutLoading, setIsCheckoutButtonDisabled}}>
     
 
     { (user.isAdmin === false) ?
@@ -220,7 +224,7 @@ function App() {
             {(ischeckoutLoading) ?
             <Spinner small={true}/>
             :
-            <Button onClick={handleCheckout}>Checkout</Button>
+            <Button onClick={handleCheckout}disabled={isCheckoutButtonDisabled}>Checkout</Button>
             }
             
           </div>
