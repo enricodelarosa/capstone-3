@@ -65,17 +65,10 @@ export default function Products() {
 	// Props Drilling - allows us to pass information from one component to another using "props"
 	// Curly braces {} are used for props to signify that we are providing/passing information
 	return(
-        <Content>
+        
         <Container>
-        <Row className="mt-4 mx-1 justify-content-center align-middle">
-            {
-                (products == null || isLoading) ?
-
-                <Spinner />
-                :
-
-                <>
-                    <div className="text-center"><p className="d-inline p-2">Sort By</p><select onChange={ e => {
+            <Row>
+        <div className="text-center mt-4"><p className="d-inline p-2">Sort By</p><select onChange={ e => {
                         updateSearchParams(e.target.value)
                     }}>
                         <option value="name:1">Name: A to Z</option>
@@ -83,6 +76,18 @@ export default function Products() {
                         <option value="price:1">Price: Low to High</option>
                         <option value="price:-1">Price: High to Low</option>
                         </select></div>
+
+                        </Row>
+        <Row className="mt-4 mx-1 justify-content-center align-middle">
+
+            {
+                (products == null || isLoading) ?
+
+                <Spinner />
+                :
+
+                <>
+
                     {products}
                 </>
                     
@@ -93,6 +98,6 @@ export default function Products() {
             }
         </Row>
         </Container>
-        </Content>
+        
 	)
 }
