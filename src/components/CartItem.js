@@ -70,10 +70,12 @@ export default function CartItem({cartItem}) {
             console.log('updating cart')
 
             if (data.success) {
-                refreshCart();
+                refreshCart(() => {
+                    setIsQLoading(false);
+                });
             }
 
-            setIsQLoading(false);
+            
         })
         
     }
@@ -82,7 +84,10 @@ export default function CartItem({cartItem}) {
     return (
         <>
         {(isCTLoading) ?
+        <div className="ml-12"> 
         <Spinner />
+        </div>
+
         :
         <div className="border border-dark my-2 rounded p-2 position-relative">
 

@@ -11,7 +11,7 @@ import ProductView from './pages/ProductView';
 import Error404 from './pages/Error404';
 import Orders from './pages/Orders/Orders';
 
-import Admin from './pages/Admin/Admin';
+import Admin from './pages/Admin/Dashboard/Admin';
 import AddProduct from './pages/Admin/AddProduct';
 import AdminOrders from './pages/Admin/AdminOrders'
 import Users from './pages/Admin/Users/Users';
@@ -46,6 +46,7 @@ function App() {
 
     //end of for click outside
 
+    const [ ischeckoutLoading, setIsCheckoutLoading] = useState(false);
     const [isCartLoading, setIsCartLoading] = useState(false)
 
     const [showCart, setShowCart] = useState(false);
@@ -160,6 +161,7 @@ function App() {
     }
 
     function handleCheckout() {
+        setIsCheckoutLoading(true);
         fetch(`/users/cart/checkout`, {
             method: "POST",
             headers: {
@@ -178,7 +180,9 @@ function App() {
                     text: "Order has been placed."
                 })
                 
-                refreshCart();
+                refreshCart(() => {
+                    setIsCheckoutLoading(false);
+                });
 
                 navigate('/orders');
                 setOrderDum(orderDum +1);
@@ -215,7 +219,12 @@ function App() {
           
           <Offcanvas.Title>&#8369; {toDisplayAmt(cartValue)}</Offcanvas.Title>
           <div>
+            {(ischeckoutLoading) ?
+            <Spinner small={true}/>
+            :
             <Button onClick={handleCheckout}>Checkout</Button>
+            }
+            
           </div>
         </Offcanvas.Header>
 
