@@ -34,8 +34,11 @@ export default function Admin() {
             console.log(data);
 
             setProducts(data);
-
-            callbackFunc(false);
+            
+            if (typeof callbackFunc === 'function') {
+                callbackFunc(false);
+            }
+            
 
             //setProducts
         })
@@ -80,7 +83,7 @@ export default function Admin() {
             <thead>
                 <tr className="text-center">
                     {headers.map(header => {
-                        return <th>{Object.values(header)[0]}</th>;
+                        return <th key={Object.values(header)[0]}>{Object.values(header)[0]}</th>;
                     })}
                 </tr>
             </thead>

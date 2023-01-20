@@ -12,7 +12,7 @@ export default function AdminOrder({order}) {
 
     return (
 
-        <Col className="border border-dark rounded m-2 col-11 col-md-3 col-lg-2"
+        <Col className="border border-dark rounded m-2 col-11 col-md-3 col-lg-2" style={{backgroundColor: '#ABD9FF'}}
         onClick={e=> {
             setShowOrderItems(!showOrderItems);
         }}

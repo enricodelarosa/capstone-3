@@ -40,11 +40,13 @@ export default function AddProduct({header, data}) {
         .then(data => {
             console.log(data);
 
-            setName(data.name);
-            setDescription(data.description);
-            setPrice(data.price);
-            setStock(data.stock ? data.stock : 1);
-            setIsActive(data.isActive);
+            const {name, description, price, stock, isActive} = data.product;
+ 
+            setName(name);
+            setDescription(description);
+            setPrice(price);
+            setStock(stock ? stock : 1);
+            setIsActive(isActive);
         })
 
 

@@ -15,6 +15,8 @@ export default function Products() {
 
     const [products, setProducts] = useState(null);
 
+    const [isLoading, setIsLoading] = useState(false);
+
     const [searchParams, setSearchParams] = useSearchParams();
 
     useEffect(() => {
@@ -25,7 +27,7 @@ export default function Products() {
 
     useEffect(() => {
         // console.log(field, isAsc)
-
+        setIsLoading(true)
         const field = searchParams.get('field');
         const isAsc = searchParams.get('isAsc');
 
@@ -42,7 +44,11 @@ export default function Products() {
                     </Col>
                 )
             }))
+
+            setIsLoading(false);
         })
+
+
     }, [searchParams])
 
 
@@ -63,7 +69,7 @@ export default function Products() {
         <Container>
         <Row className="mt-4 mx-1 justify-content-center align-middle">
             {
-                (products == null) ?
+                (products == null || isLoading) ?
 
                 <Spinner />
                 :
