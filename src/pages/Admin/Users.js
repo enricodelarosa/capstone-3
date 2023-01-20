@@ -3,6 +3,7 @@ import {useState, useEffect} from 'react';
 import {Container, Row, Col, Button} from 'react-bootstrap';
 import Table from 'react-bootstrap/Table';
 import Spinner from '../../utils/Spinner';
+import Content from '../../layout/Content';
 
 export default function Users() {
     
@@ -51,12 +52,15 @@ export default function Users() {
         <>
         <h1 className="text-center mt-4">List of Users</h1>
         
-        <Container className="">
+        
             
                 {(users === null) ?
-                <Spinner />
+                <Content>
+                    <Spinner />
+                </Content>
                 :
 
+                <Container className="">
                     <Row className="justify-content-center">
                         <Col className="col-12 col-md-6">
                         <Table variant="dark" striped bordered hover>
@@ -106,10 +110,11 @@ export default function Users() {
                         </Table>
                         </Col>
                     </Row>  
+                    </Container>
                 }
 
             
-        </Container>
+        
         </>
     )   
 

@@ -10,6 +10,7 @@ import {displayAmt} from '../../utils/display';
 
 
 import AdminOrder from './AdminOrder';
+import Content from '../../layout/Content';
 
 export default function AdminOrders() 
 {
@@ -66,8 +67,9 @@ export default function AdminOrders()
 
         {users == null
         ?
-        
-            <Spinner />
+            <Content>
+                <Spinner />
+            </Content>
         
 
         :
