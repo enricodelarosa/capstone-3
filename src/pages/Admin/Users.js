@@ -60,10 +60,9 @@ export default function Users() {
                 </Content>
                 :
 
-                <Container className="">
-                    <Row className="justify-content-center">
-                        <Col className="col-12 col-md-6">
-                        <Table variant="dark" striped bordered hover>
+                 
+                        <div>
+                        <Table className="mx-auto" style={{maxWidth: '700px'}} variant="dark" striped bordered hover>
                             <thead className="text-center">
                                 <tr>
                                     <th>
@@ -108,9 +107,8 @@ export default function Users() {
                         }
                         </tbody>
                         </Table>
-                        </Col>
-                    </Row>  
-                    </Container>
+                        </div>
+                    
                 }
 
             
