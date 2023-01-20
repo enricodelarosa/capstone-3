@@ -1,5 +1,5 @@
-import {useState, useEffect} from 'react';
-import { BrowserRouter as Router, Route, Routes, Navigate, useNavigate} from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Route, Routes, Navigate, useNavigate } from 'react-router-dom';
 
 import AppNavbar from './components/AppNavbar';
 import Login from './pages/Login';
@@ -19,9 +19,9 @@ import Users from './pages/Admin/Users/Users';
 import Cart from './components/Cart';
 import Offcanvas from 'react-bootstrap/Offcanvas';
 
-import {UserProvider} from './UserContext';
+import { UserProvider } from './UserContext';
 
-import {Container, Button} from 'react-bootstrap';
+import { Container, Button } from 'react-bootstrap';
 
 import Content from './layout/Auth';
 
@@ -42,11 +42,11 @@ function App() {
     const handleClickOutsideNavBar = () => {
         setClickOutCount(clickOutCount + 1);
     };
-  
+
 
     //end of for click outside
 
-    const [ ischeckoutLoading, setIsCheckoutLoading] = useState(false);
+    const [ischeckoutLoading, setIsCheckoutLoading] = useState(false);
     const [isCartLoading, setIsCartLoading] = useState(false)
 
     const [isCheckoutButtonDisabled, setIsCheckoutButtonDisabled] = useState(false);
@@ -56,12 +56,12 @@ function App() {
     const [orderDum, setOrderDum] = useState(0);
 
     const handleCloseCart = () => setShowCart(false);
-    const handleShowCart = () => setShowCart(true); 
+    const handleShowCart = () => setShowCart(true);
 
     const { height, width } = useWindowDimensions();
 
     const [user, setUser] = useState({
-        id: null,
+        id: 0,
         isAdmin: null
     });
 
@@ -69,42 +69,42 @@ function App() {
     const [cartValue, setCartValue] = useState(0);
 
     const refreshCart = (optionalCallBackFunc) => {
-        
+
         console.log('refreshing cart, getting details');
         fetch(`/users/details`, {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem('token')}`
             }
         })
-        .then(res => res.json())
-        .then(data => {
-    
-            if(typeof data._id !== "undefined") {
-    
-                setCart(data.cart);
-                setCartValue(data.cartValue);
-            } 
-    
-            else { 
+            .then(res => res.json())
+            .then(data => {
 
-                setCart(null);
-                setCartValue(0);
-            }
+                if (typeof data._id !== "undefined") {
 
-            setIsCartLoading(false);
-            setIsCheckoutButtonDisabled(false );
+                    setCart(data.cart);
+                    setCartValue(data.cartValue);
+                }
+
+                else {
+
+                    setCart(null);
+                    setCartValue(0);
+                }
+
+                setIsCartLoading(false);
+                setIsCheckoutButtonDisabled(false);
 
 
-            let isFunction = typeof optionalCallBackFunc === 'function'
+                let isFunction = typeof optionalCallBackFunc === 'function'
 
-            if (isFunction) {
+                if (isFunction) {
 
-                optionalCallBackFunc();
-            }
-            
-        })
+                    optionalCallBackFunc();
+                }
 
-        
+            })
+
+
 
     }
 
@@ -127,39 +127,39 @@ function App() {
                 Authorization: `Bearer ${localStorage.getItem('token')}`
             }
         })
-        .then(res => res.json())
-        .then(data => {
-    
-            if(typeof data._id !== "undefined") {
-    
-                setUser({
-                    id: data._id,
-                    isAdmin: data.isAdmin,
-                    isSuperAdmin: data.isSuperAdmin
-                })
+            .then(res => res.json())
+            .then(data => {
 
-                setCart(data.cart);
-                setCartValue(data.cartValue);
-            } 
-    
-            else { 
-                setUser({
-                    id: null,
-                    isAdmin: null
-                })
+                if (typeof data._id !== "undefined") {
 
-                setCart([]);
-                setCartValue(0);
-            }
-    
-        })
+                    setUser({
+                        id: data._id,
+                        isAdmin: data.isAdmin,
+                        isSuperAdmin: data.isSuperAdmin
+                    })
+
+                    setCart(data.cart);
+                    setCartValue(data.cartValue);
+                }
+
+                else {
+                    setUser({
+                        id: null,
+                        isAdmin: null
+                    })
+
+                    setCart([]);
+                    setCartValue(0);
+                }
+
+            })
     }, []);
 
     function toDisplayAmt(amount) {
         return Intl.NumberFormat('en-US', {
             minimumFractionDigits: 2,
             maximumFractionDigits: 2,
-            }).format(amount)
+        }).format(amount)
     }
 
     function handleCheckout() {
@@ -171,141 +171,154 @@ function App() {
                 'Authorization': `Bearer ${localStorage.getItem('token')}`,
             }
         })
-        .then(res => res.json())
-        .then(data => {
-            console.log(data);
+            .then(res => res.json())
+            .then(data => {
+                console.log(data);
 
-            if (data.success === true) {
-                Swal.fire({
-                    title: `Order #${data.orderId} Placed`,
-                    icon: "success",
-                    text: "Order has been placed."
-                })
-                
-                refreshCart(() => {
-                    setIsCheckoutLoading(false);
-                });
+                if (data.success === true) {
+                    Swal.fire({
+                        title: `Order #${data.orderId} Placed`,
+                        icon: "success",
+                        text: "Order has been placed."
+                    })
 
-                navigate('/orders');
-                setOrderDum(orderDum +1);
+                    refreshCart(() => {
+                        setIsCheckoutLoading(false);
+                    });
 
-                
-
-
-            } else {
-                Swal.fire({
-                    title: data.errorHeading,
-                    icon: "error",
-                    text: data.errorMessage
-                })        
-
-            }
-
-        })
-
-    }
+                    navigate('/orders');
+                    setOrderDum(orderDum + 1);
 
 
 
 
+                } else {
+                    Swal.fire({
+                        title: data.errorHeading,
+                        icon: "error",
+                        text: data.errorMessage
+                    })
 
-  return (
-    <UserProvider value={{user, setUser, unsetUser, cart, setCart, setCartValue, refreshCart, handleShowCart, setShowCart, orderDum, setIsCartLoading, setIsCheckoutLoading, setIsCheckoutButtonDisabled}}>
-    
+                }
 
-    { (user.isAdmin === false) ?
-    <Offcanvas show={showCart} onHide={handleCloseCart}>
-        <Offcanvas.Header closeButton>
-          <Offcanvas.Title>Cart</Offcanvas.Title>
-
-          
-          <Offcanvas.Title>&#8369; {toDisplayAmt(cartValue)}</Offcanvas.Title>
-          <div>
-            {(ischeckoutLoading) ?
-            <Spinner small={true}/>
-            :
-            <Button onClick={handleCheckout}disabled={isCheckoutButtonDisabled}>Checkout</Button>
-            }
-            
-          </div>
-        </Offcanvas.Header>
-
-        {
-          (isCartLoading) ?
-          <Spinner/>
-          :
-        <Offcanvas.Body>
-            <Cart cart={cart}/>
-        </Offcanvas.Body>
-        
-        }
-      </Offcanvas>
-
-      :
-
-      ''
+            })
 
     }
 
-      <AppNavbar clickOutCount={clickOutCount} id="navbar"/>
-      <Container onClick={handleClickOutsideNavBar} className="content-container" style={{height: height - 48 + 'px'}}>
-            <Routes>
-            <Route path="/" element={<Navigate to="/products"/>} />
-            <Route path="/app" element={<Navigate to="/products"/>} />
-            <Route path="/products" element={<Products />} />
 
-            <Route path="/products/:productId" element={<ProductView />} />
 
-            {/* conditionally provide admin routes for better security */}
-            {(user.isAdmin === true)
-                ?
-                <>
-                <Route path="/admin/dashboard" element={<Admin />}/>
 
-                <Route path="/admin/products/new" element={<AddProduct header={'Create Product'}/>}/>
 
-                <Route path="/admin/products/:productId" element={<AddProduct header={'Edit Product'}/>}/>
+    return (
+        <UserProvider value={{ user, setUser, unsetUser, cart, setCart, setCartValue, refreshCart, handleShowCart, setShowCart, orderDum, setIsCartLoading, setIsCheckoutLoading, setIsCheckoutButtonDisabled }}>
 
-                <Route path="/admin/orders" element={<AdminOrders/>}/>
-                </>
+
+            {(user.isAdmin === false) ?
+                <Offcanvas show={showCart} onHide={handleCloseCart}>
+                    <Offcanvas.Header closeButton>
+                        <Offcanvas.Title>Cart</Offcanvas.Title>
+
+
+                        <Offcanvas.Title>&#8369; {toDisplayAmt(cartValue)}</Offcanvas.Title>
+                        <div>
+                            {(ischeckoutLoading) ?
+                                <Spinner small={true} />
+                                :
+                                <Button onClick={handleCheckout} disabled={isCheckoutButtonDisabled}>Checkout</Button>
+                            }
+
+                        </div>
+                    </Offcanvas.Header>
+
+                    {
+                        (isCartLoading) ?
+                            <Spinner />
+                            :
+                            <Offcanvas.Body>
+                                <Cart cart={cart} />
+                            </Offcanvas.Body>
+
+                    }
+                </Offcanvas>
+
                 :
-                
+
                 ''
 
             }
 
-
-            {(user.isSuperAdmin === true) 
-                ?
-                <Route path="/admin/users" element={<Users/>}/>
-
-                :
-                ''
-            }
-
-            {(user.isAdmin === false)
-                ?
-                <>
-                <Route path="/orders" element={<Orders />}/>
-                </>
-                :
-                
-                ''
-
-            }
+            <AppNavbar clickOutCount={clickOutCount} id="navbar" />
 
 
-            <Route path="/register" element={<Register />}/>
-            <Route path = "/login" element={<Login />}/>
-            <Route path = "/logout" element={<Logout/>}/>
+            <Container onClick={handleClickOutsideNavBar} className="content-container" style={{ height: height - 48 + 'px' }}>
 
-            <Route path = "/*" element={<Error404/>}/>
-            
-            </Routes>
-      </Container>
-    {/* </Router> */}
-    </UserProvider>
-  );
+                {(user.id === 0) ?
+
+                <Content>
+                    <Spinner />
+                </Content>
+                    :
+
+                    <Routes>
+                        <Route path="/" element={<Navigate to="/products" />} />
+                        <Route path="/app" element={<Navigate to="/products" />} />
+                        <Route path="/products" element={<Products />} />
+
+                        <Route path="/products/:productId" element={<ProductView />} />
+
+                        {/* conditionally provide admin routes for better security */}
+                        {(user.isAdmin === true)
+                            ?
+                            <>
+                                <Route path="/admin/dashboard" element={<Admin />} />
+
+                                <Route path="/admin/products/new" element={<AddProduct header={'Create Product'} />} />
+
+                                <Route path="/admin/products/:productId" element={<AddProduct header={'Edit Product'} />} />
+
+                                <Route path="/admin/orders" element={<AdminOrders />} />
+                            </>
+                            :
+
+                            ''
+
+                        }
+
+
+                        {(user.isSuperAdmin === true)
+                            ?
+                            <Route path="/admin/users" element={<Users />} />
+
+                            :
+                            ''
+                        }
+
+                        {(user.isAdmin === false)
+                            ?
+                            <>
+                                <Route path="/orders" element={<Orders />} />
+                            </>
+                            :
+
+                            ''
+
+                        }
+
+
+                        <Route path="/register" element={<Register />} />
+                        <Route path="/login" element={<Login />} />
+                        <Route path="/logout" element={<Logout />} />
+
+                        <Route path="/*" element={<Error404 />} />
+
+                    </Routes>
+
+                }
+
+            </Container>
+            {/* </Router> */}
+        </UserProvider>
+    );
 }
 
 export default App;
