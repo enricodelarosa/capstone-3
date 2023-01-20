@@ -1,8 +1,7 @@
 .spinner {
     width: 5rem;
     height: 5rem;
-    color: #ffffff; 
-    fill: lightblue;
+    fill: #1c98eb;
     margin: 0 auto;
     
 }
@@ -15,10 +14,8 @@
 .smallSpinner {
     width: 2rem;
     height: 2rem;
-    color: #ffffff; 
-    fill: lightblue;
+    fill: #1c98eb;
     margin: 0 auto;
-
 }
 
 @-moz-keyframes spinner {

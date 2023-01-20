@@ -36,6 +36,16 @@ import './App.css';
 function App() {
     const navigate = useNavigate();
 
+    //start of for click outside
+    const [clickOutCount, setClickOutCount] = useState(0);
+
+    const handleClickOutsideNavBar = () => {
+        setClickOutCount(clickOutCount + 1);
+    };
+  
+
+    //end of for click outside
+
     const [isCartLoading, setIsCartLoading] = useState(false)
 
     const [showCart, setShowCart] = useState(false);
@@ -108,6 +118,7 @@ function App() {
     }
 
     useEffect(() => {
+        document.body.setAttribute('style', 'background: #C3F8FF;')
         fetch(`/users/details`, {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem('token')}`
@@ -225,8 +236,8 @@ function App() {
 
     }
 
-      <AppNavbar id="navbar"/>
-      <Container className="content-container" style={{height: height - 48 + 'px'}}>
+      <AppNavbar clickOutCount={clickOutCount} id="navbar"/>
+      <Container onClick={handleClickOutsideNavBar} className="content-container" style={{height: height - 48 + 'px'}}>
             <Routes>
             <Route path="/" element={<Navigate to="/products"/>} />
             <Route path="/app" element={<Navigate to="/products"/>} />
