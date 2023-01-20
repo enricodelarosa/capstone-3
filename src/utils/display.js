@@ -5,4 +5,7 @@ export function displayAmt(amt) {
         }).format(amt)
 }
 
-
+export function dtDisplay(isoFormat) {
+    const date = new Date(isoFormat);
+    return date.toLocaleString();
+}

@@ -4,7 +4,7 @@ import AdminOrderItem from './AdminOrderItem';
 
 import {Col} from 'react-bootstrap';
 
-import { displayAmt } from '../../utils/display';
+import { displayAmt, dtDisplay } from '../../utils/display';
 
 export default function AdminOrder({order}) {
 
@@ -19,6 +19,10 @@ export default function AdminOrder({order}) {
         >
             <div>
                 <h6 className="d-inline">Order Id: </h6><span>{order.orderId}</span>
+            </div>
+
+            <div>
+                <span className="d-inline">{dtDisplay(order.purchasedOn)}</span>
             </div>
 
             <div>
