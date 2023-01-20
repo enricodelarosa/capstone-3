@@ -6,11 +6,11 @@ import {Link} from 'react-router-dom';
 
 import '../css/ProductCard.css';
 
-export default function ProductCard({product}) {
+export default function ProductCard({product, searchParams}) {
 
 	const {name, description, price, _id} = product;
 
-
+    const [field, isAsc] = [searchParams.get('field'), searchParams.get('isAsc')]
 	return (
         <Card className="h-100">
             <Card.Body className="">
@@ -36,7 +36,7 @@ export default function ProductCard({product}) {
                 <Button id={'btn-enroll-' + id} className="bg-primary" onClick={enroll}>Enroll</Button> */}
             </Card.Body>
             <div className="text-center">
-                <Button className="bg-primary my-3 w-fit" as={Link} to={`/products/${_id}`} >
+                <Button className="bg-primary my-3 w-fit" as={Link} to={`/products/${_id}?field=${field}&isAsc=${isAsc}`} >
                     Details
                 </Button>
             </div>

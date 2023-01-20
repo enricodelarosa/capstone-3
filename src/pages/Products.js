@@ -8,13 +8,28 @@ import Content from '../layout/Content';
 
 import Spinner from '../utils/Spinner';
 
+import {useSearchParams} from 'react-router-dom';
+import { search } from 'fontawesome';
+
 export default function Products() {
 
     const [products, setProducts] = useState(null);
 
+    const [searchParams, setSearchParams] = useSearchParams();
 
     useEffect(() => {
-        fetch(`/products`)
+        setSearchParams(`?${new URLSearchParams({ field: 'name' })}&${new URLSearchParams({ isAsc: 1 })}`)
+    },[])
+
+
+
+    useEffect(() => {
+        // console.log(field, isAsc)
+
+        const field = searchParams.get('field');
+        const isAsc = searchParams.get('isAsc');
+
+        fetch(`/products?field=${field}&isAsc=${isAsc}`)
         .then(res => res.json())
         .then(data => {
             console.log(data);
@@ -23,12 +38,23 @@ export default function Products() {
 
                 return (
                     <Col  key ={product._id}className="col-12 col-md-3 m-2">
-                        <ProductCard  product={product}/>
+                        <ProductCard  product={product} searchParams={searchParams}/>
                     </Col>
                 )
             }))
         })
-    }, [])
+    }, [searchParams])
+
+
+    function updateSearchParams(json) {
+
+        const [field, isAsc] = json.split(':')
+
+        console.log(field, isAsc);
+
+        setSearchParams(`?${new URLSearchParams({ field: field  })}&${new URLSearchParams({ isAsc: isAsc })}`)
+
+    }
 
 	// Props Drilling - allows us to pass information from one component to another using "props"
 	// Curly braces {} are used for props to signify that we are providing/passing information
@@ -42,7 +68,21 @@ export default function Products() {
                 <Spinner />
                 :
 
-                products
+                <>
+                    <div className="text-center"><p className="d-inline p-2">Sort By</p><select onChange={ e => {
+                        updateSearchParams(e.target.value)
+                    }}>
+                        <option value="name:1">Name: A to Z</option>
+                        <option value="name:-1">Name: Z to A</option>
+                        <option value="price:1">Price: Low to High</option>
+                        <option value="price:-1">Price: High to Low</option>
+                        </select></div>
+                    {products}
+                </>
+                    
+                
+
+                
                 
             }
         </Row>

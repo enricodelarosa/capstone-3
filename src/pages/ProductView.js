@@ -13,16 +13,24 @@ import '../css/ProductView.css';
 
 import Spinner from '../utils/Spinner';
 
+import Carousel from 'react-bootstrap/Carousel';
+
+import {useSearchParams} from 'react-router-dom';
+
+
+
 export default function ProductView() {
 
     const navigate = useNavigate();
+
+    const [searchParams, setSearchParams] = useSearchParams();
 
     const [isLoading, setIsLoading] = useState(false);
 
     const { user, cart, refreshCart, setShowCart, setIsCartLoading } = useContext(UserContext);
 
 
-    const { productId } = useParams();
+    let { productId } = useParams();
 
     // const [name, setName] = useState("");
     // const [description, setDescription] = useState("");
@@ -30,12 +38,18 @@ export default function ProductView() {
 
     const [product, setProduct] = useState(null);
 
+    const [idBefore, setIdBefore] = useState(null);
+
+    const [idAfter, setIdAfter] = useState(null);
+
     const [quantity, setQuantity] = useState(0);
     const [newQuantity, setNewQuantity] = useState(1);
 
     const [activateUpdate, setActivateUpdate] = useState(false);
 
     const [inCart, setInCart] = useState(false);
+
+    const [isNavLoading, setIsNavLoading] = useState(false);
 
     useEffect(() => {
 
@@ -66,12 +80,21 @@ export default function ProductView() {
 
     useEffect(() => {
 
-        fetch(`/products/${productId}`)
+        const field = searchParams.get('field');
+        const isAsc = searchParams.get('isAsc');
+
+        fetch(`/products/${productId}?field=${field}&isAsc=${isAsc}`)
             .then(res => res.json())
             .then(data => {
                 console.log(data);
+                
+                const {product, productIdBefore, productIdAfter} = data;
 
-                setProduct({ name: data.name, descripiton: data.description, price: data.price});
+                setIdAfter(productIdAfter);
+                setIdBefore(productIdBefore);
+
+                setProduct({ name: product.name, description: product.description, price: product.price});
+                setIsNavLoading(false);
 
                 
             })
@@ -228,6 +251,17 @@ export default function ProductView() {
 
     }
 
+    function move(productId) {
+
+        const field = searchParams.get('field');
+        const isAsc = searchParams.get('isAsc');
+
+
+        setIsNavLoading(true);
+        navigate(`/products/${productId}?field=${field}&isAsc=${isAsc}`)
+        
+    }
+
 
     function handlePlus() {
         setNewQuantity(newQuantity + 1);
@@ -238,11 +272,19 @@ export default function ProductView() {
         <Content>
             <Row>
                 <Col lg={{ span: 6, offset: 3 }} >
-                    {(product == null) ?
+                    {(product == null || isNavLoading) ?
                     <Spinner/>
                     :
-                        <Card>
+
+                        <Card className="d-flex flex-row position-relative">
+                        
+                            {idBefore &&
+                                <div className="position-absolute" onClick={e => {move(idBefore)}} style={{left: '1rem', top: '30%', cursor: 'pointer'}}><h1 style={{fontSize: '5rem'}}>&lt;</h1></div>
+
+                            }
+                            
                             <Card.Body className="text-center">
+                                
                                 <Card.Title>{product.name}</Card.Title>
                                 <Card.Subtitle>Description:</Card.Subtitle>
                                 <Card.Text>{product.description}</Card.Text>
@@ -291,10 +333,19 @@ export default function ProductView() {
                                                 </div>
 
                                         :
-                                        <Button className="btn btn-danger" as={Link} to="/login"  >Log in to Use Cart</Button>
+                                        <Button className="btn btn-danger" as={Link} to="/login">Log in to Use Cart</Button>
                                 }
 
+
+                               
                             </Card.Body>
+
+                            {idAfter &&
+
+                                <div className="position-absolute" onClick={e => {move(idAfter)}} style ={{right: '1rem', top: '30%', cursor: 'pointer'}}><h1 style={{fontSize: '5rem'}}>&gt;</h1></div>
+
+                            }
+                            
                         </Card>
 
                     }
