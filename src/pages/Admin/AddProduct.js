@@ -1,6 +1,8 @@
 import Auth from '../../layout/Auth';
 
-import { Form, Button, FloatingLabel, Col, Row } from 'react-bootstrap';
+import { Form, Button, FloatingLabel, Col, Row} from 'react-bootstrap';
+
+import {Link} from 'react-router-dom'
 
 import * as React from 'react';
 import {useState, useEffect} from 'react';
@@ -309,7 +311,7 @@ export default function AddProduct({header, data}) {
 
                 </FormGroup>
                 
-                <div className="text-center mt-4">
+                <div className="text-center mt-4 position-relative">
                 <Button disabled={!isCreateActive} onClick={e => {
                     if (productId) {
                         editProduct();
@@ -319,6 +321,11 @@ export default function AddProduct({header, data}) {
                     createProduct();
                 }}>
                     {productId ? 'Edit Product' : 'Create Product'}
+                </Button>
+
+
+                <Button as={Link} to="/admin/dashboard" className="position-absolute end-0 text-dark" variant="warning">
+                    Cancel  
                 </Button>
                 </div>
 
