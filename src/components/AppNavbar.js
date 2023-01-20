@@ -10,6 +10,7 @@ import {Button, Container} from 'react-bootstrap';
 import {useContext} from 'react';
 
 import UserContext from '../UserContext';
+import { fontWeight } from '@mui/system';
 
 
 export default function AppNavbar({clickOutCount}) {
@@ -22,6 +23,7 @@ export default function AppNavbar({clickOutCount}) {
         color: '#0a4678',
         fontWeight: 'bold'
     }
+
 
     useEffect(() => {
         setExpanded(false);
@@ -44,13 +46,13 @@ export default function AppNavbar({clickOutCount}) {
         }}aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav" className="justify-content-between">
           <Nav className="me-auto">
-            <Nav.Link as={NavLink} to="/">&nbsp;Home</Nav.Link>
-            <Nav.Link as={NavLink} to="/products">&nbsp;Products</Nav.Link>
+            <Nav.Link as={NavLink} to="/">&nbsp;<strong>Home</strong></Nav.Link>
+            <Nav.Link as={NavLink} to="/products">&nbsp;<strong>Products</strong></Nav.Link>
 
             { (user.isAdmin)
                 &&
 
-                <Nav.Link as={NavLink} to="/admin/dashboard">&nbsp;Admin</Nav.Link>
+                <Nav.Link as={NavLink} to="/admin/dashboard">&nbsp;<strong>Admin</strong></Nav.Link>
 
             }
 
@@ -90,11 +92,11 @@ export default function AppNavbar({clickOutCount}) {
         }
             {(user.id !== null) 
                 ? 
-                    <Nav.Link as={NavLink} to="/logout">&nbsp;Logout</Nav.Link>
+                    <Nav.Link as={NavLink} to="/logout" className="text-end text-danger">&nbsp; <strong>Logout</strong></Nav.Link>
                 :
                     <>
-                    <Nav.Link as={NavLink} to="/login">&nbsp;Login</Nav.Link>
-                    <Nav.Link as={NavLink} to="/register">&nbsp;Register</Nav.Link>
+                    <Nav.Link as={NavLink} to="/login" className="text-success">&nbsp;<strong>Login</strong></Nav.Link>
+                    <Nav.Link as={NavLink} to="/register" className="text-info">&nbsp;<strong>Register</strong></Nav.Link>
                     </>
                 }
           </Nav>

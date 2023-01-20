@@ -14,7 +14,7 @@ import Orders from './pages/Orders/Orders';
 import Admin from './pages/Admin/Admin';
 import AddProduct from './pages/Admin/AddProduct';
 import AdminOrders from './pages/Admin/AdminOrders'
-import Users from './pages/Admin/Users';
+import Users from './pages/Admin/Users/Users';
 
 import Cart from './components/Cart';
 import Offcanvas from 'react-bootstrap/Offcanvas';
