@@ -58,8 +58,6 @@ function App() {
 
     const { height, width } = useWindowDimensions();
 
-    console.log(height);
-
     const [user, setUser] = useState({
         id: null,
         isAdmin: null

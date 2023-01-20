@@ -12,6 +12,8 @@ export default function CartItem({cartItem}) {
 
     const [isCTLoading, setIsCTLoading] = useState(false);
 
+    const [newQuantity, setNewQuantity] = useState(cartItem.quantity);
+
 
     function toDisplayAmt(amount) {
         return Intl.NumberFormat('en-US', {
@@ -52,34 +54,49 @@ export default function CartItem({cartItem}) {
 
     }
 
+    let qChangeTimeOut;
 
-    function handleChange(quantity,productId) {
 
-        setIsQLoading(true)
-        fetch(`/users/cart/${productId}?quantity=${quantity}`, {
-            method: "PATCH",
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${localStorage.getItem('token')}`,
-            },
-        })
-        .then(res => res.json())
-        .then(data => {
-            console.log(data);
 
-            console.log('updating cart')
-
-            if (data.success) {
-                refreshCart(() => {
-                    setIsQLoading(false);
-                });
-            }
-
-            
-        })
+    function handleChange(productId) {
         
+
+        clearTimeout(qChangeTimeOut);
+
+        
+
+
+        qChangeTimeOut = setTimeout(() => {
+            console.log('updating cart')
+            setIsQLoading(true)
+            fetch(`/users/cart/${productId}?quantity=${newQuantity}`, {
+                method: "PATCH",
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                },
+            })
+                .then(res => res.json())
+                .then(data => {
+                    console.log(data);
+
+                    console.log('updating cart')
+
+                    if (data.success) {
+                        refreshCart(() => {
+                            setIsQLoading(false);
+                        });
+                    }
+
+
+                })
+
+        }, 1500)
+
+
+
     }
-    
+
     
     return (
         <>
@@ -113,25 +130,28 @@ export default function CartItem({cartItem}) {
                     :   
 
                     <>
-                <input type="button" value={`${cartItem.quantity == 1 ? ' ' : '-'}`} className="button-minus" data-field="quantity"
+                <input type="button" value={`${newQuantity== 1 ? ' ' : '-'}`} className="button-minus" data-field="quantity"
                     onClick={e => {
-                        if (cartItem.quantity == 1) {
+                        if (newQuantity <= 1) {
                             return;
                         }
-                        handleChange(cartItem.quantity - 1, cartItem.productId)
+                        setNewQuantity(Number(newQuantity) - 1);
+                        handleChange(cartItem.productId)
                     }}
                 />
 
-                <input type="number" min="1" max="" name="quantity" className="quantity-field" value={cartItem.quantity} 
+                <input id="quantity" type="number" min="1" max="" name="quantity" className="quantity-field" value={newQuantity} 
                 onChange={e => 
                     { 
-                        handleChange(e.target.value, cartItem.productId)
+                        setNewQuantity(e.target.value);
+                        handleChange(cartItem.productId)
                     }}
                 />
 
                 <input type="button" value="+" className="button-plus" data-field="quantity"
                     onClick={e => {
-                        handleChange(cartItem.quantity + 1, cartItem.productId)
+                        setNewQuantity(Number(newQuantity) + 1);
+                        handleChange(cartItem.productId)
                     }} />
                 </>
                 }
