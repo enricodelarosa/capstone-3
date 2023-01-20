@@ -59,7 +59,7 @@ export default function Users() {
 
                     <Row className="justify-content-center">
                         <Col className="col-12 col-md-6">
-                        <Table striped bordered hover>
+                        <Table variant="dark" striped bordered hover>
                             <thead className="text-center">
                                 <tr>
                                     <th>

@@ -87,7 +87,7 @@ export default function Admin() {
             
         
         <Row>
-        <Table striped bordered hover responsive>
+        <Table variant="dark" striped bordered hover responsive>
             <thead>
                 <tr className="text-center">
                     {headers.map(header => {
@@ -117,17 +117,22 @@ export default function Admin() {
                                 </strong>
                             </td>
                             <td className="text-center">
-                                <Button className="my-1 py-0 px-2 d-block mx-auto" onClick={e => {
+                                <Button className="my-1 py-0 px-2 d-block mx-auto"
+                                variant="warning" onClick={e => {
                                     navigate(`/admin/products/${product._id}`)
-                                }}>Update</Button>
+                                }}><strong>Update</strong></Button>
 
                                 <Button className="my-1 py-0 px-2 d-block mx-auto"
+
+                                variant={product.isActive ? 'danger' : 'info'}
+
                                 onClick={e => {
                                     const option = product.isActive ? 'deactivate' : 'activate';
                                     toggleisActive(product._id, option)
                                 }}
                                 >     
-                                    {product.isActive ? 'Deactivate' : 'Activate'}
+                                    <strong>{product.isActive ? 'Deactivate' : 'Activate'}
+                                    </strong>
                                 </Button>
                             </td>
                         </tr>
