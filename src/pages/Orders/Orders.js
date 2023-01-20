@@ -64,14 +64,14 @@ export default function Orders() {
 
                 orders.map(order => {
                     return (
-                        <Row key={order.orderId} className="border border-dark my-4 rounded justify-content-center">
+                        <Row key={order.orderId} className="border border-dark my-4 rounded justify-content-center" style={{backgroundColor: '#ABD9FF'}}>
                             <h2 className="text-center">Order #{order.orderId}</h2>
                             <h5 className="text-center">Order Total: &#8369; {amtDisplay(order.totalAmount)}</h5>
                             <h6 className="text-center">{dtDisplay(order.purchasedOn)}</h6>
                             {
                                 order.orderItems.map(orderItem => {
                                     return (
-                                        <Col
+                                        <Col style={{backgroundColor: '#FFF6BF'}}
                                         key={orderItem._id} className="border border-info px-3 py-2 my-2 rounded col-10 col-md-2 m-2">
                                             <span className="text-center d-block mb-2">Order Item # {orderItem._id}</span>
 
