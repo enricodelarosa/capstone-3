@@ -13,6 +13,8 @@ import Switch from '@mui/material/Switch';
 
 import Swal from 'sweetalert2';
 
+import Spinner from '../../utils/Spinner';
+
 
 export default function AddProduct({header, data}) {
 
@@ -29,12 +31,15 @@ export default function AddProduct({header, data}) {
 
     const [isCreateActive, setIsCreateActive] = useState(false)
 
+    const [isLoading, setIsLoading] = useState(false);
+
     useEffect(() => {
         if (!productId) {
             console.log('productId is blank')
             return;
         }
 
+        setIsLoading(true);
         fetch(`/products/${productId}`)
         .then(res => res.json())
         .then(data => {
@@ -47,6 +52,7 @@ export default function AddProduct({header, data}) {
             setPrice(price);
             setStock(stock ? stock : 1);
             setIsActive(isActive);
+            setIsLoading(false);
         })
 
 
@@ -216,6 +222,10 @@ export default function AddProduct({header, data}) {
             <Form className="mt-12 mt-md-0">
                 <h1 className="text-center mb-4">{header}</h1>
 
+                {(isLoading) ? 
+                <Spinner />
+                :
+                <>
                 <Form.Group  controlId="name">
 
                     <FloatingLabel
@@ -312,7 +322,6 @@ export default function AddProduct({header, data}) {
                     />
 
                 </FormGroup>
-                
                 <div className="text-center mt-4 position-relative">
                 <Button disabled={!isCreateActive} onClick={e => {
                     if (productId) {
@@ -330,6 +339,11 @@ export default function AddProduct({header, data}) {
                     Cancel  
                 </Button>
                 </div>
+                </>
+                }
+                
+                
+
 
 
 
