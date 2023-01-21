@@ -1,4 +1,4 @@
-import { display } from '@mui/system';
+
 import {useState, useEffect, useContext} from 'react';
 
 import UserContext from '../UserContext';
@@ -7,16 +7,14 @@ import Swal from 'sweetalert2';
 
 export default function CartItem({cartItem}) {
 
-    const {refreshCart, setIsCartLoading, setIsCheckoutButtonDisabled} = useContext(UserContext);
+    const {refreshCart, setIsCheckoutButtonDisabled} = useContext(UserContext);
 
     const [isQLoading, setIsQLoading] = useState(false);
 
     const [isCTLoading, setIsCTLoading] = useState(false);
 
     const [displayQuantity, setDisplayQuantity] = useState(cartItem.quantity);
-    const [submitQuantity, setSubmitQuantity] = useState(cartItem.quantity);
-
-    const [clickCount, setClickCount] = useState(0);
+    //const [submitQuantity, setSubmitQuantity] = useState(cartItem.quantity);
 
     useEffect(() => {
         if (cartItem !== null) {
@@ -39,10 +37,6 @@ export default function CartItem({cartItem}) {
             }).format(amount)
     }
 
-    function loadFuncQFalse() {
-        setIsCTLoading(false)
-    }
-
     function handleRemove(productId) {
         setIsCheckoutButtonDisabled(true);
         setIsCTLoading(true)
@@ -60,7 +54,9 @@ export default function CartItem({cartItem}) {
             console.log('deletign from cart')
 
             if (data.success) {
-                setDisplayQuantity(cartItem.quantity);
+                refreshCart(() => {
+                    setIsCTLoading(false);
+                });
             } else {
                 Swal.fire({
                 title: "Deletion Error",
@@ -123,11 +119,6 @@ export default function CartItem({cartItem}) {
             })
     }
 
-    function handleChange(productId, newQ) {
-
-
-    }
-
 
     let quantityUpdateTimeout;
 
@@ -170,7 +161,6 @@ export default function CartItem({cartItem}) {
 
             <h5 className="d-inline-block">Quantity &nbsp;</h5>
 
-
                 
             
             <div className="input-group justify-content-start d-inline">
@@ -179,7 +169,7 @@ export default function CartItem({cartItem}) {
                     :   
 
                     <>
-                <input type="button" value={`${displayQuantity== 1 ? ' ' : '-'}`} className="button-minus" hidden={(displayQuantity === 1) ? true : false} data-field="quantity"
+                <input type="button" value={`${displayQuantity=== 1 ? ' ' : '-'}`} className="button-minus" hidden={(displayQuantity === 1) ? true : false} data-field="quantity"
                     onClick={e => {
 
                         const quantityElement = document.getElementById(`quantity-${cartItem.productId}`);
