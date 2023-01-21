@@ -52,7 +52,7 @@ export default function Admin() {
     
 
     return (
-        <Content>
+        <>
             <Row className="m-4 justify-content-center">
                 <h1 className="text-center">Admin Dashboard</h1>
                     <Col className="text-center col-4 col-md-2">
@@ -103,6 +103,6 @@ export default function Admin() {
         }
         
 
-        </Content>
+        </>
     )
 }
