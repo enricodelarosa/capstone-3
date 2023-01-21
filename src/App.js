@@ -210,7 +210,7 @@ function App() {
 
 
     return (
-        <UserProvider value={{ user, setUser, unsetUser, cart, setCart, setCartValue, refreshCart, handleShowCart, setShowCart, orderDum, setIsCartLoading, setIsCheckoutLoading, setIsCheckoutButtonDisabled }}>
+        <UserProvider value={{ user, setUser, unsetUser, cart, setCart, setCartValue, refreshCart, handleShowCart, setShowCart, orderDum, setIsCartLoading, setIsCheckoutLoading, setIsCheckoutButtonDisabled, width}}>
 
 
             {(user.isAdmin === false) ?

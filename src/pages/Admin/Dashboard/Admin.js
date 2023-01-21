@@ -11,8 +11,11 @@ import Content from '../../../layout/Content';
 
 import AdminProduct from './AdminProduct';
 
+import UserContext from '../../../UserContext';
+
 export default function Admin() {
     // Get all products
+    const {width} = useContext(UserContext);
 
     const navigate = useNavigate();
 
@@ -49,6 +52,18 @@ export default function Admin() {
 
     },[])
 
+    const bigHeaders = headers.map(header => {
+                        
+
+        return <th key={Object.values(header)[0]}>{Object.values(header)[0]}</th>;
+    })
+
+    const smallHeaders = headers.slice(0, 1).concat(headers.slice(2,3), headers.slice(4)).map(header => {
+                        
+
+        return <th key={Object.values(header)[0]}>{Object.values(header)[0]}</th>;
+    })
+
     
 
     return (
@@ -79,12 +94,10 @@ export default function Admin() {
             
         
         <Row>
-        <Table variant="dark" striped bordered hover responsive>
+        <Table style={{overflowWrap: 'anywhere'}}variant="dark" striped bordered hover responsive>
             <thead>
                 <tr className="text-center">
-                    {headers.map(header => {
-                        return <th key={Object.values(header)[0]}>{Object.values(header)[0]}</th>;
-                    })}
+                    {(width <= 768) ? smallHeaders: bigHeaders}
                 </tr>
             </thead>
             <tbody>

@@ -53,8 +53,9 @@ export default function Users() {
                 :
 
                  
+                        <Container>
                         <div>
-                        <Table className="mx-auto" style={{maxWidth: '700px'}} variant="dark" striped bordered hover>
+                        <Table className="mx-auto" style={{maxWidth: '700px', overflowWrap: 'anywhere'}} variant="dark" striped bordered hover>
                             <thead className="text-center">
                                 <tr>
                                     <th>
@@ -77,8 +78,10 @@ export default function Users() {
                         })
                         }
                         </tbody>
+                        
                         </Table>
                         </div>
+                        </Container>
                     
                 }
 
