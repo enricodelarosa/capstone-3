@@ -179,7 +179,7 @@ export default function CartItem({cartItem}) {
                     :   
 
                     <>
-                <input type="button" value={`${displayQuantity== 1 ? ' ' : '-'}`} className="button-minus" data-field="quantity"
+                <input type="button" value={`${displayQuantity== 1 ? ' ' : '-'}`} className="button-minus" hidden={(displayQuantity === 1) ? true : false} data-field="quantity"
                     onClick={e => {
 
                         const quantityElement = document.getElementById(`quantity-${cartItem.productId}`);
