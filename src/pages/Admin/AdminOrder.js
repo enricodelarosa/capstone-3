@@ -4,6 +4,10 @@ import AdminOrderItem from './AdminOrderItem';
 
 import {Col} from 'react-bootstrap';
 
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
+import Tooltip from 'react-bootstrap/Tooltip';
+
+
 import { displayAmt, dtDisplay } from '../../utils/display';
 
 export default function AdminOrder({order}) {
@@ -11,12 +15,13 @@ export default function AdminOrder({order}) {
     const [showOrderItems, setShowOrderItems] = useState(false);
 
     return (
-
-        <Col className="border border-dark rounded m-2 col-11 col-md-3 col-lg-2" style={{backgroundColor: '#ABD9FF'}}
+        <OverlayTrigger overlay={<Tooltip id="tooltip-disabled">{showOrderItems ? 'Click to hide order items':'Click to show order items'}</Tooltip>}>
+        <Col className="border border-dark rounded m-2 col-11 col-md-3 col-lg-2" style={{backgroundColor: '#ABD9FF', cursor: 'pointer'}}
         onClick={e=> {
             setShowOrderItems(!showOrderItems);
         }}
         >
+            
             <div>
                 <h6 className="d-inline">Order Id: </h6><span>{order.orderId}</span>
             </div>
@@ -42,5 +47,6 @@ export default function AdminOrder({order}) {
             <AdminOrderItem orderItems={order.orderItems} showOrderItems={showOrderItems}/>
 
         </Col>
+        </OverlayTrigger>
     )
 }
