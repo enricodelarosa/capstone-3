@@ -18,7 +18,13 @@ export default function Products() {
     const [searchParams, setSearchParams] = useSearchParams();
 
     useEffect(() => {
-        setSearchParams(`?${new URLSearchParams({ field: 'name' })}&${new URLSearchParams({ isAsc: 1 })}`)
+
+
+        if (searchParams.get('field') == null || searchParams.get('isAsc') == null) {
+            setSearchParams(`?${new URLSearchParams({ field: 'name' })}&${new URLSearchParams({ isAsc: 1 })}`)
+        }
+
+        
     },[setSearchParams])
 
     // useEffect(() => {
@@ -33,8 +39,8 @@ export default function Products() {
         // console.log(field, isAsc)
         function extractProducts() {
             setIsLoading(true)
-            const field = searchParams.get('field');
-            const isAsc = searchParams.get('isAsc');
+            const field = searchParams.get('field') && 'name';
+            const isAsc = searchParams.get('isAsc') && '1';
     
             fetch(`/products?field=${field}&isAsc=${isAsc}`)
             .then(res => res.json())
