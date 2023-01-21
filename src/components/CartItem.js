@@ -60,7 +60,7 @@ export default function CartItem({cartItem}) {
             console.log('deletign from cart')
 
             if (data.success) {
-                refreshCart(loadFuncQFalse);
+                setDisplayQuantity(cartItem.quantity);
             } else {
                 Swal.fire({
                 title: "Deletion Error",
