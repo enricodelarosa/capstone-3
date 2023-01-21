@@ -77,7 +77,7 @@ export default function AdminOrders()
             {
                 users.map(user => {
                     return (
-                        <Row className="border border-dark rounded py-2 my-4 justify-content-center" key={user.userId}>
+                        <Row style={{backgroundColor: 'white'}} className="border border-dark rounded py-2 my-4 justify-content-center" key={user.userId}>
                             <h3 className="text-center">User: {user.email}</h3>
                             <div style={{width: 'fit-content'}} className="my-2 d-flex">
                                 <div>
