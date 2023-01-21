@@ -29,13 +29,20 @@ export default function AppNavbar({clickOutCount}) {
         setExpanded(false);
     },[clickOutCount])
 
+    function handleLinkClick() {
+        setExpanded(false);
+    }
+
   return (
     <Navbar expand="lg" style={{background: '#FFEBAD'}} expanded={expanded}>
     <Container>
-        <Navbar.Brand style={style} as={Link} to="/">&nbsp;Rico Mart</Navbar.Brand>
+        <Navbar.Brand onClick={handleLinkClick} style={style} as={Link} to="/">&nbsp;Rico Mart</Navbar.Brand>
 
         {(user.isAdmin == false) ?
-            <Navbar.Brand className="d-inline d-lg-none" onClick={handleShowCart}style={{cursor: 'pointer'}}>&#128722;</Navbar.Brand>
+            <Navbar.Brand className="d-inline d-lg-none" onClick={ e=> {
+                handleShowCart();
+                handleLinkClick();
+            }}style={{cursor: 'pointer'}}>&#128722;</Navbar.Brand>
         :
         ''
 
@@ -58,13 +65,13 @@ export default function AppNavbar({clickOutCount}) {
         }}aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav" className="justify-content-between">
           <Nav className="me-auto">
-            <Nav.Link as={NavLink} to="/">&nbsp;<strong>Home</strong></Nav.Link>
-            <Nav.Link as={NavLink} to={`/products?field=name&isAsc=1`}>&nbsp;<strong>Products</strong></Nav.Link>
+            <Nav.Link onClick={handleLinkClick} as={NavLink} to="/">&nbsp;<strong>Home</strong></Nav.Link>
+            <Nav.Link onClick={handleLinkClick} as={NavLink} to={`/products?field=name&isAsc=1`}>&nbsp;<strong>Products</strong></Nav.Link>
 
             { (user.isAdmin)
                 &&
 
-                <Nav.Link as={NavLink} to="/admin/dashboard">&nbsp;<strong>Admin</strong></Nav.Link>
+                <Nav.Link onClick={handleLinkClick} as={NavLink} to="/admin/dashboard">&nbsp;<strong>Admin</strong></Nav.Link>
 
             }
 
@@ -78,7 +85,7 @@ export default function AppNavbar({clickOutCount}) {
             <>
           <Navbar.Brand className="d-none d-lg-inline" onClick={handleShowCart}style={{cursor: 'pointer'}}>&nbsp; &#128722;</Navbar.Brand>
 
-            <Navbar.Brand as={Link} to={'/orders'}>&nbsp;Orders</Navbar.Brand>
+            <Navbar.Brand onClick={handleLinkClick} as={Link} to={'/orders'}>&nbsp;Orders</Navbar.Brand>
           </>
             :
             ''
@@ -87,7 +94,7 @@ export default function AppNavbar({clickOutCount}) {
         {(user.isAdmin === true)
         ?
             <>
-            <Navbar.Brand as={Link} to={'/admin/orders'}>&nbsp;User Orders</Navbar.Brand>
+            <Navbar.Brand as={Link} to={'/admin/orders'} onClick={handleLinkClick}>&nbsp;User Orders</Navbar.Brand>
 
             </>
         :
@@ -97,14 +104,16 @@ export default function AppNavbar({clickOutCount}) {
 
         {(user.isSuperAdmin === true) 
         ?
-        <Navbar.Brand as={Link} to={'/admin/users'}>&nbsp;Users</Navbar.Brand>
+        <Navbar.Brand onClick={handleLinkClick} as={Link} to={'/admin/users'}>&nbsp;Users</Navbar.Brand>
         :
         ''
 
         }
             {(user.id !== null) 
-                ? 
-                    <Nav.Link as={NavLink} to="/logout" className="text-end text-danger">&nbsp; <strong>Logout</strong></Nav.Link>
+                ?   
+                    <div className="d-flex justify-content-end">
+                    <Nav.Link onClick={handleLinkClick} as={NavLink} to="/logout" className="text-end text-danger">&nbsp; <strong>Logout</strong></Nav.Link>
+                    </div>
                 :
                     <>
                     <Nav.Link as={NavLink} to="/login" className="text-success d-none d-lg-inline">&nbsp;<strong>Login</strong></Nav.Link>
