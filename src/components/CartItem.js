@@ -18,6 +18,12 @@ export default function CartItem({cartItem}) {
 
     const [clickCount, setClickCount] = useState(0);
 
+    useEffect(() => {
+        if (cartItem !== null) {
+            setDisplayQuantity(cartItem.quantity);
+        }
+    },[cartItem])
+
 
 
     useEffect(() => {
