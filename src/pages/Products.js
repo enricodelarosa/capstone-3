@@ -39,7 +39,7 @@ export default function Products() {
             setProducts(data.map(product => {
 
                 return (
-                    <Col  key ={product._id}className="col-12 col-md-3 m-2">
+                    <Col  key ={product._id}className="col-12 col-md-4 col-lg-3 my-2">
                         <ProductCard  product={product} searchParams={searchParams}/>
                     </Col>
                 )
