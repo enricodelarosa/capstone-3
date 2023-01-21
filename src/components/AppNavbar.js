@@ -40,6 +40,18 @@ export default function AppNavbar({clickOutCount}) {
         ''
 
         }
+
+        {(user.id == null) ?
+            <>
+            <Nav.Link as={NavLink} to="/login" className="text-success d-lg-none">&nbsp;<strong>Login</strong></Nav.Link>
+            
+            <Nav.Link as={NavLink} to="/register" className="text-info d-lg-none">&nbsp;<strong>Register</strong></Nav.Link>
+            </>
+        :
+
+        ''
+
+        }
         
         <Navbar.Toggle onClick={e => {
             setExpanded(!expanded);
@@ -47,7 +59,7 @@ export default function AppNavbar({clickOutCount}) {
         <Navbar.Collapse id="responsive-navbar-nav" className="justify-content-between">
           <Nav className="me-auto">
             <Nav.Link as={NavLink} to="/">&nbsp;<strong>Home</strong></Nav.Link>
-            <Nav.Link as={NavLink} to="/products">&nbsp;<strong>Products</strong></Nav.Link>
+            <Nav.Link as={NavLink} to={`/products?field=name&isAsc=1`}>&nbsp;<strong>Products</strong></Nav.Link>
 
             { (user.isAdmin)
                 &&
@@ -95,8 +107,8 @@ export default function AppNavbar({clickOutCount}) {
                     <Nav.Link as={NavLink} to="/logout" className="text-end text-danger">&nbsp; <strong>Logout</strong></Nav.Link>
                 :
                     <>
-                    <Nav.Link as={NavLink} to="/login" className="text-success">&nbsp;<strong>Login</strong></Nav.Link>
-                    <Nav.Link as={NavLink} to="/register" className="text-info">&nbsp;<strong>Register</strong></Nav.Link>
+                    <Nav.Link as={NavLink} to="/login" className="text-success d-none d-lg-inline">&nbsp;<strong>Login</strong></Nav.Link>
+                    <Nav.Link as={NavLink} to="/register" className="text-info d-none d-lg-inline">&nbsp;<strong>Register</strong></Nav.Link>
                     </>
                 }
           </Nav>
