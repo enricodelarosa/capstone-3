@@ -23,10 +23,13 @@ export default function Products() {
         setSearchParams(`?${new URLSearchParams({ field: 'name' })}&${new URLSearchParams({ isAsc: 1 })}`)
     },[])
 
-
-
     useEffect(() => {
-        // console.log(field, isAsc)
+        // console.log('search params changed');
+        extractProducts()
+
+    },[searchParams])
+
+    function extractProducts() {
         setIsLoading(true)
         const field = searchParams.get('field');
         const isAsc = searchParams.get('isAsc');
@@ -47,7 +50,12 @@ export default function Products() {
 
             setIsLoading(false);
         })
+    }
 
+    useEffect(() => {
+        // console.log(field, isAsc)
+
+        extractProducts()
 
     }, [])
 
