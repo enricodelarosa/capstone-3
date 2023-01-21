@@ -1,7 +1,7 @@
 import {useState, useEffect, useContext} from 'react';
 import { Form, Button, FloatingLabel, Col, Row } from 'react-bootstrap';
 
-import {Navigate, useNavigate, Link} from 'react-router-dom';
+import {Navigate, useNavigate, Link, useSearchParams} from 'react-router-dom';
 
 import UserContext from '../UserContext';
 
@@ -15,6 +15,8 @@ import Spinner from '../utils/Spinner';
 export default function Register() {
 
     const {user, setUser, setCart, setCartValue} = useContext(UserContext);
+
+    const [searchParams] = useSearchParams();
 
     const navigate = useNavigate();
 
@@ -65,7 +67,10 @@ export default function Register() {
 
                 setIsLoading(false);  
                 
-                navigate('/products');
+                const loginLink = (searchParams.get('view') !== null)
+                ?   `/products/${searchParams.get('view')}`
+                : '/products'
+                navigate(loginLink);
                 
 
                 

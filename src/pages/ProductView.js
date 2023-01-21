@@ -63,7 +63,7 @@ export default function ProductView() {
 
 
         const foundProduct = cart.find(product => {
-            return product.productId === productId
+        return product.productId === productId
         })
 
         if (foundProduct) {
@@ -80,8 +80,23 @@ export default function ProductView() {
 
     useEffect(() => {
 
-        const field = searchParams.get('field');
-        const isAsc = searchParams.get('isAsc');
+
+        if (searchParams.get('field') == null || searchParams.get('isAsc') == null) {
+            setSearchParams(`?${new URLSearchParams({ field: 'name' })}&${new URLSearchParams({ isAsc: 1 })}`)
+        }
+
+        
+    },[setSearchParams,searchParams])
+
+    useEffect(() => {
+
+
+
+        let field = searchParams.get('field') 
+        let  isAsc = searchParams.get('isAsc')
+
+        field = field == null ? 'name' : field;
+        isAsc = isAsc == null ? '1' : isAsc;
 
         fetch(`/products/${productId}?field=${field}&isAsc=${isAsc}`)
             .then(res => res.json())
@@ -333,7 +348,7 @@ export default function ProductView() {
                                                 </div>
 
                                         :
-                                        <Button className="btn btn-danger" as={Link} to="/login">Log in to Use Cart</Button>
+                                        <Button className="btn btn-danger" as={Link} to={`/login?view=${productId}`}>Log in to Order</Button>
                                 }
 
 

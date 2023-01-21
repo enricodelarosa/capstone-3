@@ -4,7 +4,7 @@ import { Form, Button, FloatingLabel, Col, Row } from 'react-bootstrap';
 
 import Auth from '../layout/Auth';
 
-import {Navigate, Link} from 'react-router-dom';
+import {Navigate, Link, useSearchParams, useNavigate } from 'react-router-dom';
 
 import UserContext from '../UserContext';
 
@@ -13,6 +13,10 @@ import Swal from 'sweetalert2';
 import Spinner from '../utils/Spinner';
 
 export default function Login() {
+
+    const navigate = useNavigate();
+    const [searchParams] = useSearchParams();
+
     const {user, setUser, setCart, setCartValue} = useContext(UserContext);
 
     const [email, setEmail] = useState("");
@@ -101,6 +105,12 @@ export default function Login() {
             setCart(data.cart);
             setCartValue(data.cartValue);
 
+
+            const viewSearchParam = searchParams.get('view');
+            if (viewSearchParam !== null) {
+                navigate(`/products/${viewSearchParam}`);
+            }
+
             setIsLoading(false);
         })
     }
@@ -117,6 +127,13 @@ export default function Login() {
 
 
     },[email, pswd])
+
+    const registerLink = 
+        (searchParams.get('view') !== null)
+        ?   `/register?view=${searchParams.get('view')}`
+        : '/register'
+    
+    
 
 
     return (
@@ -175,7 +192,7 @@ export default function Login() {
                 </FloatingLabel>
             </Form.Group>
 
-            <Link to={'/register'}>Not yet registered?</Link>
+            <Link to={registerLink}>Not yet registered?</Link>
 
             <div className="mt-3 text-center">
                 <Button variant="success" type="submit" id="submitBtn" 
