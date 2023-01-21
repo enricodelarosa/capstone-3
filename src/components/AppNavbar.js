@@ -5,12 +5,11 @@ import { Link, NavLink } from 'react-router-dom';
 
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
-import { Button, Container } from 'react-bootstrap';
+import { Container } from 'react-bootstrap';
 
 import { useContext } from 'react';
 
 import UserContext from '../UserContext';
-import { fontWeight } from '@mui/system';
 
 
 export default function AppNavbar({ clickOutCount, cartLength }) {
@@ -45,7 +44,7 @@ export default function AppNavbar({ clickOutCount, cartLength }) {
             <Container>
                 <Navbar.Brand onClick={handleLinkClick} style={style} as={Link} to="/">&nbsp;Rico Mart</Navbar.Brand>
 
-                {(user.isAdmin == false) ?
+                {(user.isAdmin === false) ?
                     <>
                         <Navbar.Brand className="d-inline d-lg-none" onClick={e => {
                             handleShowCart();

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Route, Routes, Navigate, useNavigate } from 'react-router-dom';
+import { Route, Routes, Navigate, useNavigate } from 'react-router-dom';
 
 import AppNavbar from './components/AppNavbar';
 import Login from './pages/Login';
@@ -157,7 +157,7 @@ function App() {
 
     useEffect(() => {
         if (cart !== null) {
-            if (cart.length == 0) {
+            if (cart.length === 0) {
                 setIsCheckoutButtonDisabled(true);
             } else {
                 setIsCheckoutButtonDisabled(false);
