@@ -57,9 +57,9 @@ export default function Orders() {
                 :
 
                 (orders.length === 0) ?
-                <p className="text-center">No orders yet. Start by adding items to your <p className="text-info pointer d-inline" onClick={e => {
+                <p className="text-center">No orders yet. Start by adding items to your <span className="text-info pointer d-inline" onClick={e => {
                     setShowCart(true);
-                }}>cart</p></p>
+                }}>cart</span></p>
                 :
 
                 orders.map(order => {
