@@ -2,7 +2,7 @@ import {useEffect, useState} from 'react';
 
 import Spinner from '../../utils/Spinner';
 
-import {Container, Row, Col} from 'react-bootstrap';
+import {Container, Row} from 'react-bootstrap';
 
 import '../../css/AdminOrders.css';
 

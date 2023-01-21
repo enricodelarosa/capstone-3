@@ -3,7 +3,7 @@ import {useState, useContext} from 'react';
 
 import {Button} from 'react-bootstrap';
 
-import {useParams, useNavigate} from 'react-router-dom';
+import { useNavigate} from 'react-router-dom';
 
 import UserContext from '../../../UserContext';
 

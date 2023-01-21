@@ -1,13 +1,12 @@
 import {useState, useEffect, useContext} from 'react';
 import {Row, Col,  Button} from 'react-bootstrap';
 
-import {useParams, useNavigate, Link} from 'react-router-dom';
+import { Link} from 'react-router-dom';
 
 import Table from 'react-bootstrap/Table';
 
 import Spinner from '../../../utils/Spinner';
 
-import Content from '../../../layout/Content';
 
 import AdminProduct from './AdminProduct';
 
@@ -17,7 +16,6 @@ export default function Admin() {
     // Get all products
     const {width} = useContext(UserContext);
 
-    const navigate = useNavigate();
 
     const [products, setProducts] = useState(null);
 
