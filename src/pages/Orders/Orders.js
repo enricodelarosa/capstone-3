@@ -72,7 +72,7 @@ export default function Orders() {
                                 order.orderItems.map(orderItem => {
                                     return (
                                         <Col style={{backgroundColor: '#FFF6BF'}}
-                                        key={orderItem._id} className="border border-info px-3 py-2 my-2 rounded col-10 col-md-2 m-2">
+                                        key={orderItem._id} className="border border-info px-3 py-2 my-2 rounded col-10 col-md-4 col-lg-2 m-2">
                                             <span className="text-center d-block mb-2">Order Item # {orderItem._id}</span>
 
                                             <h4 className="pointer text-primary" onClick={e => {
