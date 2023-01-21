@@ -247,7 +247,7 @@ function App() {
 
             }
 
-            <AppNavbar clickOutCount={clickOutCount} id="navbar" />
+            <AppNavbar clickOutCount={clickOutCount} id="navbar" cartLength={(cart == null? 0 : cart.length)}/>
 
 
             <Container onClick={handleClickOutsideNavBar} className="content-container" style={{ height: height - 48 + 'px' }}>
