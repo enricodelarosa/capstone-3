@@ -39,8 +39,8 @@ export default function Products() {
         // console.log(field, isAsc)
         function extractProducts() {
             setIsLoading(true)
-            const field = searchParams.get('field') && 'name';
-            const isAsc = searchParams.get('isAsc') && '1';
+            const field = searchParams.get('field');
+            const isAsc = searchParams.get('isAsc');
     
             fetch(`/products?field=${field}&isAsc=${isAsc}`)
             .then(res => res.json())
