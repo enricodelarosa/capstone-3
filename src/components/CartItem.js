@@ -3,6 +3,7 @@ import {useState, useEffect, useContext} from 'react';
 
 import UserContext from '../UserContext';
 import Spinner from '../utils/Spinner';
+import Swal from 'sweetalert2';
 
 export default function CartItem({cartItem}) {
 
@@ -16,6 +17,7 @@ export default function CartItem({cartItem}) {
     const [submitQuantity, setSubmitQuantity] = useState(cartItem.quantity);
 
     const [clickCount, setClickCount] = useState(0);
+
 
 
     useEffect(() => {
@@ -53,6 +55,13 @@ export default function CartItem({cartItem}) {
 
             if (data.success) {
                 refreshCart(loadFuncQFalse);
+            } else {
+                Swal.fire({
+                title: "Deletion Error",
+                icon: "error",
+                text: "Please try again."
+                }) 
+
             }
 
             
@@ -67,6 +76,18 @@ export default function CartItem({cartItem}) {
 
 
     function updateCartQuantity(productId, quantity) {
+
+        if (quantity <= 0) {
+            Swal.fire({
+                title: "Cart item cannot be 0 or negative",
+                icon: "error",
+                text: "Please set correct cart amount."
+                }) 
+            refreshCart();
+            return
+
+
+        }
 
         setIsQLoading(true);
         setIsCheckoutButtonDisabled(true);
@@ -88,7 +109,7 @@ export default function CartItem({cartItem}) {
                     refreshCart(() => {
                         setIsQLoading(false);
                     });
-                }
+                } 
 
 
 
