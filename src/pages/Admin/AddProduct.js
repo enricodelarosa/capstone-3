@@ -213,7 +213,7 @@ export default function AddProduct({header, data}) {
      
     return (
         <Auth>
-            <Form className="mt-4 mt-md-0">
+            <Form className="mt-12 mt-md-0">
                 <h1 className="text-center mb-4">{header}</h1>
 
                 <Form.Group  controlId="name">
