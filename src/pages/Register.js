@@ -63,7 +63,9 @@ export default function Register() {
 
                 retrieveUserDetails(data.access);
 
-                setIsLoading(false);                 
+                setIsLoading(false);  
+                
+                navigate('/products');
                 
 
                 
@@ -75,7 +77,8 @@ export default function Register() {
 
     }
 
-        const retrieveUserDetails = (token) => {
+    const retrieveUserDetails = (token) => {
+        setIsLoading(true);
         fetch(`/users/details`, {
             headers: {
                 Authorization: `Bearer ${token}`
@@ -119,7 +122,7 @@ export default function Register() {
         .then(data => {
             if (data) {
 
-                setIsLoading(false);
+                
                 loginUser();
                 Swal.fire({
                     title: "Registration Successful",
@@ -127,7 +130,7 @@ export default function Register() {
                     text: "Welcome to Rico Mart! You've been automatically logged in!"
                 })    
 
-                navigate('/login');
+                
 
 
             } else {

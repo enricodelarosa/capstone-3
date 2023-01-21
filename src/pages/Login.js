@@ -48,12 +48,12 @@ export default function Login() {
 
                 retrieveUserDetails(data.access);
 
-                setIsLoading(false);
-                Swal.fire({
-                    title: "Login Successful",
-                    icon: "success",
-                    text: "Welcome to Ricomart!"
-                })                    
+                
+                // Swal.fire({
+                //     title: "Login Successful",
+                //     icon: "success",
+                //     text: "Welcome to Ricomart!"
+                // })                    
                 
 
                 
@@ -82,6 +82,7 @@ export default function Login() {
     }
 
     const retrieveUserDetails = (token) => {
+        setIsLoading(true);
         fetch(`/users/details`, {
             headers: {
                 Authorization: `Bearer ${token}`
@@ -99,6 +100,8 @@ export default function Login() {
 
             setCart(data.cart);
             setCartValue(data.cartValue);
+
+            setIsLoading(false);
         })
     }
 

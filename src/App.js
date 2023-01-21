@@ -121,6 +121,10 @@ function App() {
     }
 
     useEffect(() => {
+        setUser({
+            id: 0,
+            isAdmin: null
+        });
         document.body.setAttribute('style', 'background: #C3F8FF;')
         fetch(`/users/details`, {
             headers: {
