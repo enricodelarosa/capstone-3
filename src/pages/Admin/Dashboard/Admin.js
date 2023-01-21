@@ -77,12 +77,12 @@ export default function Admin() {
                             </Button>
                     </Col>
 
-                    <Col className="text-center col-4 col-md-2">
+                    {/* <Col className="text-center col-4 col-md-2">
                 <Button as={Link} to={'/admin/orders'} variant="success">
                     Show User Orders
                 </Button>
         
-            </Col>
+            </Col> */}
             </Row>
         {(products == null) ?
             <>
