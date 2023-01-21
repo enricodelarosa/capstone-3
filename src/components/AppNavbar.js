@@ -35,7 +35,7 @@ export default function AppNavbar({clickOutCount}) {
         <Navbar.Brand style={style} as={Link} to="/">&nbsp;Rico Mart</Navbar.Brand>
 
         {(user.isAdmin == false) ?
-            <Navbar.Brand className="d-inline d-lg-none" as={Link} to="/"onClick={handleShowCart}style={{cursor: 'pointer'}}>&#128722;</Navbar.Brand>
+            <Navbar.Brand className="d-inline d-lg-none" onClick={handleShowCart}style={{cursor: 'pointer'}}>&#128722;</Navbar.Brand>
         :
         ''
 
