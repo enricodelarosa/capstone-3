@@ -4,12 +4,10 @@ import {useState, useEffect} from 'react';
 
 import {Row, Col, Container} from 'react-bootstrap';
 
-import Content from '../layout/Content';
 
 import Spinner from '../utils/Spinner';
 
 import {useSearchParams} from 'react-router-dom';
-import { search } from 'fontawesome';
 
 export default function Products() {
 
@@ -21,43 +19,44 @@ export default function Products() {
 
     useEffect(() => {
         setSearchParams(`?${new URLSearchParams({ field: 'name' })}&${new URLSearchParams({ isAsc: 1 })}`)
-    },[])
+    },[setSearchParams])
 
-    useEffect(() => {
-        // console.log('search params changed');
-        extractProducts()
+    // useEffect(() => {
+    //     // console.log('search params changed');
+    //     extractProducts()
 
-    },[searchParams])
+    // },[searchParams])
 
-    function extractProducts() {
-        setIsLoading(true)
-        const field = searchParams.get('field');
-        const isAsc = searchParams.get('isAsc');
 
-        fetch(`/products?field=${field}&isAsc=${isAsc}`)
-        .then(res => res.json())
-        .then(data => {
-            console.log(data);
-            
-            setProducts(data.map(product => {
-
-                return (
-                    <Col  key ={product._id}className="col-12 col-md-4 col-lg-3 my-2">
-                        <ProductCard  product={product} searchParams={searchParams}/>
-                    </Col>
-                )
-            }))
-
-            setIsLoading(false);
-        })
-    }
 
     useEffect(() => {
         // console.log(field, isAsc)
+        function extractProducts() {
+            setIsLoading(true)
+            const field = searchParams.get('field');
+            const isAsc = searchParams.get('isAsc');
+    
+            fetch(`/products?field=${field}&isAsc=${isAsc}`)
+            .then(res => res.json())
+            .then(data => {
+                console.log(data);
+                
+                setProducts(data.map(product => {
+    
+                    return (
+                        <Col  key ={product._id}className="col-12 col-md-4 col-lg-3 my-2">
+                            <ProductCard  product={product} searchParams={searchParams}/>
+                        </Col>
+                    )
+                }))
+    
+                setIsLoading(false);
+            })
+        }
 
         extractProducts()
 
-    }, [])
+    }, [searchParams])
 
 
     function updateSearchParams(json) {
