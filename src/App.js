@@ -155,6 +155,18 @@ function App() {
             })
     }, []);
 
+    useEffect(() => {
+        if (cart !== null) {
+            if (cart.length == 0) {
+                setIsCheckoutButtonDisabled(true);
+            } else {
+                setIsCheckoutButtonDisabled(false);
+            }
+
+        }
+
+    }, [cart])
+
     function toDisplayAmt(amount) {
         return Intl.NumberFormat('en-US', {
             minimumFractionDigits: 2,
