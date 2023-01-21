@@ -25,7 +25,7 @@ export default function Products() {
         }
 
         
-    },[setSearchParams])
+    },[setSearchParams,searchParams])
 
     // useEffect(() => {
     //     // console.log('search params changed');
