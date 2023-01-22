@@ -7,6 +7,7 @@ import Register from './pages/Register';
 import Logout from './pages/Logout';
 import Products from './pages/Products';
 import ProductView from './pages/ProductView';
+import Account from './pages/Account';
 
 import Error404 from './pages/Error404';
 import Orders from './pages/Orders/Orders';
@@ -141,6 +142,7 @@ function App() {
                 if (typeof data._id !== "undefined") {
 
                     setUser({
+                        email: data.email,
                         id: data._id,
                         isAdmin: data.isAdmin,
                         isSuperAdmin: data.isSuperAdmin
@@ -335,6 +337,9 @@ function App() {
                             ''
 
                         }
+
+
+                        <Route path="/account" element={<Account />} />
 
 
                         <Route path="/register" element={<Register />} />

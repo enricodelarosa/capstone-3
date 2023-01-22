@@ -119,6 +119,9 @@ export default function AppNavbar({ clickOutCount, cartLength }) {
                             ''
 
                         }
+
+                        <Navbar.Brand onClick={handleLinkClick} as={Link} to={'/account'}>&nbsp;Account</Navbar.Brand>
+
                         {(user.id !== null)
                             ?
                             <div className="d-flex justify-content-end">

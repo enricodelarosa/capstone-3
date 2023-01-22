@@ -97,6 +97,7 @@ export default function Login() {
             console.log(data);
 
             setUser({
+                email: data.email,
                 id: data._id,
                 isAdmin: data.isAdmin,
                 isSuperAdmin: data.isSuperAdmin
