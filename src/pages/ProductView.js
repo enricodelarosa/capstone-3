@@ -326,6 +326,9 @@ export default function ProductView() {
 
 
                                 {
+                                    (user.isAdmin === true) ?
+                                    <Button variant="warning" as={Link} to={`/admin/products/${productId}`}>Edit</Button>
+                                    :
                                     (user.id !== null) ?
                                         (inCart === false) ?
 
