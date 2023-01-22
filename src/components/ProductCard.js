@@ -113,7 +113,7 @@ export default function ProductCard({product, searchParams}) {
                 </Button>
             </div>
             
-            {isInCart || user.isAdmin ? '' : 
+            {isInCart || user.isAdmin || user.isAdmin == null ? '' : 
             <>
                 {isCartBtnLoading ? <Spinner small={true}/>
                 :
@@ -126,9 +126,23 @@ export default function ProductCard({product, searchParams}) {
                 </div>
 
                 }
+
+
                 </>
 
             }
+
+            {
+                    isInCart ?
+                    <div className="text-center">
+                    <Button style={{cursor: 'auto', border: 'none', backgroundColor: 'rgba(26,67,20,0.5)'}} className="my-3 w-fit">
+                            <strong>&#10004;</strong>
+                    </Button>
+                    </div>
+                    :
+                    '' 
+                    
+                }
 
             </div>
 
