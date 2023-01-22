@@ -32,7 +32,7 @@ export default function CartItem({cartItem}) {
 
     useEffect(() => {
 
-        if (document.getElementById`quantity-${cartItem.productId}` != null) {
+        if (document.getElementById(`quantity-${cartItem.productId}`) != null) {
             document.getElementById(`quantity-${cartItem.productId}`).value = cartItem.quantity;
 
         }

@@ -92,7 +92,9 @@ function App() {
                 }
 
                 setIsCartLoading(false);
-                setIsCheckoutButtonDisabled(false);
+
+
+                
 
 
                 let isFunction = typeof optionalCallBackFunc === 'function'
@@ -101,6 +103,8 @@ function App() {
 
                     optionalCallBackFunc();
                 }
+
+
 
             })
 
@@ -165,6 +169,18 @@ function App() {
                 setIsCheckoutButtonDisabled(true);
             } else {
                 setIsCheckoutButtonDisabled(false);
+            }
+
+            console.log(typeof cart.find(cartItem => {
+                return cartItem.isActive == false
+            }))
+
+            if (typeof cart.find(cartItem => {
+                return cartItem.isActive == false
+            }) === 'undefined') {
+                setIsCheckoutButtonDisabled(false);
+            } else {
+                setIsCheckoutButtonDisabled(true);
             }
 
         }
