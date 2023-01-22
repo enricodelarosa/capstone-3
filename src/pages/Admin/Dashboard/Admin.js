@@ -22,8 +22,11 @@ export default function Admin() {
     const headers = [{name: 'Name'}, {description: 'Description'}, {price: 'Price'}, {stock: 'Stock'}, {isActive: 'Availability'}, {actions: 'Actions'}]
 
 
-    function getProducts(callbackFunc) {
-        fetch(`/products/all`, {
+    function getProducts(callbackFunc, field, isAsc) {
+        setProducts(null);
+
+
+        fetch(`/products/all?field=${field == null ? 'name' : field}&isAsc=${isAsc == null ? '1' : isAsc}`, {
             method: "GET",
             headers: {
                 'Content-Type': 'application/json',
@@ -81,6 +84,24 @@ export default function Admin() {
                 </Button>
         
             </Col> */}
+            </Row>
+
+            <Row>
+
+                <div className="text-center mb-4">
+                <p className="d-inline p-2">Sort By</p>
+                <select onChange={e => {
+                    const [field, isAsc] = e.target.value.split(':');
+                    const dumVar = 1;
+                    getProducts(dumVar, field, isAsc);
+                }}>
+                        <option value="name:1">Name: A to Z</option>
+                        <option value="name:-1">Name: Z to A</option>
+                        <option value="price:1">Price: Low to High</option>
+                        <option value="price:-1">Price: High to Low</option>
+                </select>
+                </div>
+
             </Row>
         {(products == null) ?
             <>
