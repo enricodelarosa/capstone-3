@@ -18,7 +18,7 @@ export default function ProductCard({product, searchParams}) {
 
 	const {name, description, price, _id} = product;
 
-    const {cart, setIsCartLoading, refreshCart, setShowCart} = useContext(UserContext);
+    const {cart, setIsCartLoading, refreshCart, setShowCart, user} = useContext(UserContext);
 
     const isInCart = cart.find(cartItem => {
         if (cartItem.productId != product._id) {
@@ -66,6 +66,7 @@ export default function ProductCard({product, searchParams}) {
 
                 } else {
                     setIsCartLoading(false);
+                    setIsCartBtnLoading(false);
                     Swal.fire({
                         title: data.error,
                         icon: "error",
@@ -112,7 +113,7 @@ export default function ProductCard({product, searchParams}) {
                 </Button>
             </div>
             
-            {isInCart ? '' : 
+            {isInCart || user.isAdmin ? '' : 
             <>
                 {isCartBtnLoading ? <Spinner small={true}/>
                 :

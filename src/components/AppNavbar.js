@@ -120,13 +120,17 @@ export default function AppNavbar({ clickOutCount, cartLength }) {
 
                         }
 
-                        <Navbar.Brand onClick={handleLinkClick} as={Link} to={'/account'}>&nbsp;Account</Navbar.Brand>
+
+
 
                         {(user.id !== null)
                             ?
+                            <>
+                            <Navbar.Brand onClick={handleLinkClick} as={Link} to={'/account'}>&nbsp;Account</Navbar.Brand>
                             <div className="d-flex justify-content-end">
                                 <Nav.Link onClick={handleLinkClick} as={NavLink} to="/logout" className="text-end text-danger">&nbsp; <strong>Logout</strong></Nav.Link>
                             </div>
+                            </>
                             :
                             <>
                                 <Nav.Link as={NavLink} to="/login" className="text-success d-none d-lg-inline">&nbsp;<strong>Login</strong></Nav.Link>
