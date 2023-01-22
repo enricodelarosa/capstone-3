@@ -146,7 +146,7 @@ export default function ProductView() {
                         text: "Quantity of product updated."
                     })
 
-                    refreshCart(() => isLoading(false));
+                    refreshCart(() => {setIsLoading(false)});
                     setShowCart(true);
                     //navigate('/courses');
 

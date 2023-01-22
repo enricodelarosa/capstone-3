@@ -2,13 +2,83 @@
 import { Card, Button } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 
+import { useContext , useState} from 'react';
+
 import {Link} from 'react-router-dom';
 
 import '../css/ProductCard.css';
 
+import UserContext from '../UserContext';
+
+import Spinner from '../utils/Spinner';
+
+import Swal from 'sweetalert2';
+
 export default function ProductCard({product, searchParams}) {
 
 	const {name, description, price, _id} = product;
+
+    const {cart, setIsCartLoading, refreshCart, setShowCart} = useContext(UserContext);
+
+    const isInCart = cart.find(cartItem => {
+        if (cartItem.productId != product._id) {
+            return false;
+        } 
+
+        return true
+    })
+
+    const [isCartBtnLoading, setIsCartBtnLoading] = useState(false);
+
+    function addToCart(productId) {
+        console.log('adding to cart')
+
+        setIsCartBtnLoading(true);
+
+        setIsCartLoading(true);
+ 
+        fetch(`/users/cart`, {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('token')}`,
+            },
+            body: JSON.stringify({
+                productId: productId,
+                quantity: 1
+            })
+        })
+            .then(res => res.json())
+            .then(data => {
+                console.log(data);
+                if (data.success === true) {
+                    Swal.fire({
+                        title: "Added to cart",
+                        icon: "success",
+                        text: "Product is in your cart."
+                    })
+
+                    refreshCart(() => {
+                        setIsCartBtnLoading(false)
+                    })
+                    setShowCart(true);
+                    //navigate('/courses');
+
+                } else {
+                    setIsCartLoading(false);
+                    Swal.fire({
+                        title: data.error,
+                        icon: "error",
+                        text: "Please try again."
+                    })
+
+                }
+
+            })
+
+
+
+    }
 
     const [field, isAsc] = [searchParams.get('field'), searchParams.get('isAsc')]
 	return (
@@ -35,11 +105,33 @@ export default function ProductCard({product, searchParams}) {
                 <Card.Text>Seats: {seats}</Card.Text>
                 <Button id={'btn-enroll-' + id} className="bg-primary" onClick={enroll}>Enroll</Button> */}
             </Card.Body>
+            <div className="d-flex justify-content-around">
             <div className="text-center">
                 <Button className="bg-primary my-3 w-fit" as={Link} to={`/products/${_id}?field=${field}&isAsc=${isAsc}`} >
                     Details
                 </Button>
             </div>
+            
+            {isInCart ? '' : 
+            <>
+                {isCartBtnLoading ? <Spinner small={true}/>
+                :
+                    <div className="text-center">
+                    <Button onClick={e => {
+                        addToCart(_id);
+                    }} className="bg-success my-3 w-fit">
+                            <strong>+</strong> &#128722;
+                    </Button>
+                </div>
+
+                }
+                </>
+
+            }
+
+            </div>
+
+
         </Card>
 	)
 }
