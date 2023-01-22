@@ -5,6 +5,8 @@ import UserContext from '../UserContext';
 import Spinner from '../utils/Spinner';
 import Swal from 'sweetalert2';
 
+import {Row} from 'react-bootstrap';
+
 export default function CartItem({cartItem}) {
 
     const {refreshCart, setIsCheckoutButtonDisabled} = useContext(UserContext);
@@ -19,14 +21,22 @@ export default function CartItem({cartItem}) {
     useEffect(() => {
         if (cartItem !== null) {
             setDisplayQuantity(cartItem.quantity);
+            if (cartItem.isActive == false) {
+                setIsCheckoutButtonDisabled(true)
+            }
         }
+
     },[cartItem])
 
 
 
     useEffect(() => {
 
-        document.getElementById(`quantity-${cartItem.productId}`).value = cartItem.quantity;
+        if (document.getElementById`quantity-${cartItem.productId}` != null) {
+            document.getElementById(`quantity-${cartItem.productId}`).value = cartItem.quantity;
+
+        }
+
 
     }, [cartItem])
 
@@ -146,7 +156,7 @@ export default function CartItem({cartItem}) {
         </div>
 
         :
-        <div className="border border-dark my-2 rounded p-2 position-relative">
+        <div className={`border border-dark my-2 rounded p-2 position-relative`} style={cartItem.isActive ? {backgroundColor: 'white'} : {backgroundColor: '#D3D3D3'}}>
 
 
 
@@ -154,15 +164,20 @@ export default function CartItem({cartItem}) {
                 handleRemove(cartItem.productId)
             }}></button>
 
+                <span className=" w-75" style={!cartItem.isActive ? {display :'inline-block', color: '#8b0000'} : {display :'none'}}>Product not available. Please delete from your cart to be able to checkout</span>
             <h1>{cartItem.name}</h1>
 
 
             <h5> {toDisplayAmt(cartItem.price)}</h5>
 
-            <h5 className="d-inline-block">Quantity &nbsp;</h5>
+
 
                 
-            
+            {!cartItem.isActive ?
+            ''
+            :
+            <>
+            <h5 className="d-inline-block">Quantity &nbsp;</h5>
             <div className="input-group justify-content-start d-inline">
                { (isQLoading) ? 
                 <Spinner small={true}/>
@@ -205,13 +220,16 @@ export default function CartItem({cartItem}) {
                     }} />
                 </>
                 }
-                
             </div>
+            
+        
             
 
         
 
             <h5>Sub Total: &#8369; {toDisplayAmt(cartItem.subTotal)}</h5>
+            </>
+            }
         </div>
 
         }
