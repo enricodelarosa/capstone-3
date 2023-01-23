@@ -29,7 +29,7 @@ export default function() {
         <Auth>
         
 
-        <h6 className="d-inline" style={{fontSize: '2.5rem', fontWeight: 'bold'}}>Email: </h6> <p style={{fontSize: '2rem', fontWeight: 'normal'}} className="d-inline">{user.email}</p>
+        <h6 className="d-inline" style={{fontSize: '2.5rem', fontWeight: 'bold'}}>Email: </h6> <p style={{fontSize: '2rem', fontWeight: 'normal', wordBreak: 'break-word'}} className="d-inline">{user.email}</p>
         <h6></h6>
 
         <h6 className="d-inline" style={{fontSize: '3rem', fontWeight: 'bold'}}>Role: </h6> <p className="d-inline" style={{fontSize: '3rem', fontWeight: 'normal'}}>{role}</p>
