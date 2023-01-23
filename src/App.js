@@ -35,6 +35,7 @@ import useWindowDimensions from './utils/WindowDimensions';
 import './App.css';
 
 function App() {
+    const { height, width } = useWindowDimensions();
     const navigate = useNavigate();
 
     //start of for click outside
@@ -43,6 +44,43 @@ function App() {
     const handleClickOutsideNavBar = () => {
         setClickOutCount(clickOutCount + 1);
     };
+
+    const [isNavHidden, setIsNavHidden] = useState(false);
+
+    const [scrollPosition, setSrollPosition] = useState(0);
+
+    const [lastScroll, setLastScroll] = useState(0);
+
+    const handleScroll = () => {
+        const position = window.pageYOffset;
+        console.log(position);
+        setSrollPosition(position);
+    };
+    
+    useEffect(() => {
+        window.addEventListener('scroll', handleScroll, { passive: true });
+    
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+        };
+    }, []);
+
+    useEffect(() => {
+
+        if (width < 768) {
+            if (lastScroll < scrollPosition) {
+                //scrolldown
+                setIsNavHidden(true);
+            } else if (lastScroll > scrollPosition) {
+                setIsNavHidden(false);
+            }
+            setLastScroll(scrollPosition);
+
+        } else {
+            setIsNavHidden(false);
+        }
+
+    },[scrollPosition, width])
 
 
     //end of for click outside
@@ -59,7 +97,7 @@ function App() {
     const handleCloseCart = () => setShowCart(false);
     const handleShowCart = () => setShowCart(true);
 
-    const { height, width } = useWindowDimensions();
+    
 
     const [user, setUser] = useState({
         id: 0,
@@ -173,9 +211,9 @@ function App() {
                 setIsCheckoutButtonDisabled(false);
             }
 
-            console.log(typeof cart.find(cartItem => {
-                return cartItem.isActive == false
-            }))
+            // console.log(typeof cart.find(cartItem => {
+            //     return cartItem.isActive == false
+            // }))
 
             if (typeof cart.find(cartItem => {
                 return cartItem.isActive == false
@@ -281,10 +319,10 @@ function App() {
 
             }
 
-            <AppNavbar clickOutCount={clickOutCount} id="navbar" cartLength={(cart == null? 0 : cart.length)}/>
+            <AppNavbar isHidden={isNavHidden} clickOutCount={clickOutCount} id="navbar" cartLength={(cart == null? 0 : cart.length)}/>
 
 
-            <Container onClick={handleClickOutsideNavBar} className="content-container" style={{ height: height - 48 + 'px' }}>
+            <Container id="container-content-body" onClick={handleClickOutsideNavBar} className="content-container" style={{ height: height - 48 + 'px' }}>
 
                 {(user.id === 0) ?
 

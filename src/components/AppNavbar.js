@@ -12,7 +12,7 @@ import { useContext } from 'react';
 import UserContext from '../UserContext';
 
 
-export default function AppNavbar({ clickOutCount, cartLength }) {
+export default function AppNavbar({ clickOutCount, cartLength, isHidden }) {
 
     const { user, handleShowCart } = useContext(UserContext);
 
@@ -40,7 +40,7 @@ export default function AppNavbar({ clickOutCount, cartLength }) {
     </p>
 
     return (
-        <Navbar expand="lg" style={{ background: '#FFEBAD' }} expanded={expanded}>
+        <Navbar hidden={isHidden} expand="lg" style={{ background: '#FFEBAD' }} expanded={expanded}>
             <Container>
                 <Navbar.Brand onClick={handleLinkClick} style={style} as={Link} to="/">&nbsp;Rico Mart</Navbar.Brand>
 
