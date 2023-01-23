@@ -8,7 +8,20 @@ import Auth from '../layout/Auth';
 
 export default function() {
     const {user} = useContext(UserContext);
-    console.log(user);
+    
+    function getRole(isSuperAdmin, isAdmin) {
+        if (isSuperAdmin) {
+            return 'Super Admin';
+        }
+
+        if (isAdmin) {
+            return 'Admin'
+        }
+
+        return 'User';
+    }
+
+    const role = getRole(user.isSuperAdmin, user.isAdmin);
     return (
         <>
         <div >
@@ -19,7 +32,7 @@ export default function() {
         <h6 className="d-inline" style={{fontSize: '2.5rem', fontWeight: 'bold'}}>Email: </h6> <p style={{fontSize: '2rem', fontWeight: 'normal'}} className="d-inline">{user.email}</p>
         <h6></h6>
 
-        <h6 className="d-inline" style={{fontSize: '3rem', fontWeight: 'bold'}}>Role: </h6> <p className="d-inline" style={{fontSize: '3rem', fontWeight: 'normal'}}>{user.isAdmin ? "Admin" : "User"}</p>
+        <h6 className="d-inline" style={{fontSize: '3rem', fontWeight: 'bold'}}>Role: </h6> <p className="d-inline" style={{fontSize: '3rem', fontWeight: 'normal'}}>{role}</p>
         <h6></h6>
         </Auth>
         </div>
