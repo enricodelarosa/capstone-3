@@ -309,20 +309,29 @@ export default function ProductView() {
                                     maximumFractionDigits: 2,
                                 }).format(product.price.toFixed(2))}</Card.Text>
 
-                                <div className="input-group justify-content-center">
 
-                                    <input type="button" value="-" className="button-minus" data-field="quantity" onClick={handleMinus} />
-
-                                    <input type="number" min="1" max="" value={newQuantity} name="quantity" className="quantity-field" onChange={e => {
-                                        if (e.target.value <= 0) {
-                                            //setQuantity(quantity);
-                                            return
-                                        }
-                                        setNewQuantity(Number(e.target.value));
-                                    }} />
-
-                                    <input type="button" value="+" className="button-plus" data-field="quantity" onClick={handlePlus} />
+                                {(user.isAdmin) ? 
+                                <div className="mt-4">
+                                
                                 </div>
+                                :
+                                    <div className="input-group justify-content-center">
+
+                                        <input type="button" value="-" className="button-minus" data-field="quantity" onClick={handleMinus} />
+
+                                        <input type="number" min="1" max="" value={newQuantity} name="quantity" className="quantity-field" onChange={e => {
+                                            if (e.target.value <= 0) {
+                                                //setQuantity(quantity);
+                                                return
+                                            }
+                                            setNewQuantity(Number(e.target.value));
+                                        }} />
+
+                                        <input type="button" value="+" className="button-plus" data-field="quantity" onClick={handlePlus} />
+                                    </div>
+
+                                }
+
 
 
                                 {
